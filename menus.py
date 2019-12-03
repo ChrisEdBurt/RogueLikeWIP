@@ -11,8 +11,6 @@ def menu(con, header, options, width, screen_width, screen_height):
     window = tc.console_new(width, height)
 
     # print the header, with auto-wrap
-    # tc.console_set_default_foreground(panel, tc.white)
-    # panel.default_fg = tc.white
     tc.console_print_rect_ex(window, 0, 0, width, height, tc.BKGND_NONE, tc.LEFT, header)
 
     # print all the options
@@ -35,7 +33,6 @@ def ranged_menu(con, header, player, inventory_width, screen_width, screen_heigh
         options = ['Inventory is empty.']
 
     else:
-
         options = []
         myList = []
 
@@ -65,7 +62,6 @@ def ranged_menu(con, header, player, inventory_width, screen_width, screen_heigh
 
 def inventory_menu(con, player, inventory_width, screen_width, screen_height):
     width = inventory_width + 15
-    # height = len(player.inventory.items) + len(player.inventory.items) + 8
     height = len(player.inventory.items) + 11
 
     if height <= 10:
@@ -113,7 +109,6 @@ def inventory_menu(con, player, inventory_width, screen_width, screen_height):
     
         if items.equippable != None:
 
-            # if items.equippable.slot.name == 'HEAD_ARMOUR' and items == player.equipment.head_armour and len(player.inventory.items) > 1:
             if items.equippable.slot.name == 'HEAD_ARMOUR' and items is player.equipment.head_armour and len(player.inventory.items) > 1:
                 if index != 0:
                     player.inventory.items.insert(0, items)
@@ -228,16 +223,6 @@ def inventory_menu(con, player, inventory_width, screen_width, screen_height):
                 text_y += 1
                 letter_index += 1
 
-            # text = '(' + chr(letter_index) + ') '
-            # secondary.print_box(2, text_y, len(text), 1, text, fg=tc.white, bg=None, alignment=tc.LEFT)
-            # secondary.print_box(name_origin + 1, text_y, len(item.name), 1, item.name, fg=tc.white, bg=None, alignment=tc.LEFT)
-            # secondary.print_box(damage_origin + 1, text_y, 5, 1, str(item.equippable.strength_bonus), fg=tc.white, bg=None, alignment=tc.CENTER)
-            # secondary.print_box(defense_origin + 1, text_y, 5, 1, str(item.equippable.defense_bonus), fg=tc.white, bg=None, alignment=tc.CENTER)
-            # if item.equippable.intelligence_bonus != 0:
-            #     secondary.print_box(intelligence_origin + 1, text_y, 5, 1, str(item.equippable.intelligence_bonus), fg=tc.white, bg=None, alignment=tc.CENTER)
-            # text_y += 1
-            # letter_index += 1
-
         elif item.item.ranged == True:
             text = '(' + chr(letter_index) + ') '
             secondary.print_box(2, text_y, len(text), 1, text, fg=tc.white, bg=None, alignment=tc.LEFT)
@@ -260,7 +245,6 @@ def inventory_menu(con, player, inventory_width, screen_width, screen_height):
 def main_menu(con, background_image, screen_width, screen_height):
     tc.image_blit_2x(background_image, 0, 0, 0)
 
-    # tc.console_set_default_foreground(0, tc.light_yellow)
     con.default_fg = tc.light_yellow
     tc.console_print_ex(0, int(screen_width / 2), int(screen_height / 2) - 4, tc.BKGND_NONE, tc.CENTER,'INSERT NEW TITLE')
 
@@ -290,7 +274,6 @@ def level_up_menu(con, header, player, menu_width, screen_width, screen_height):
     secondary.print_box((menu_width - menu_width) + 3, 14, menu_width, 1,"(c) Toughness", fg=tc.white, bg=tc.black, alignment = tc.CENTER)
     secondary.print_box((menu_width - menu_width) + 3, 16, menu_width, 1,"Increases physical defense. Currently: " + str(player.fighter.toughness), fg=tc.white, bg=None, alignment = tc.CENTER)
 
-    # tc.console_blit(secondary, 0, 0, width, height, 0, x, y, 1.0, 0.7) 
     tc.console_blit(secondary, 0, 0, width, height, 0, x, y, 1.0, 1.0) 
 
 def character_screen(player, character_screen_width, character_screen_height, screen_width, screen_height):

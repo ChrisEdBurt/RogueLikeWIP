@@ -184,7 +184,6 @@ class GameMap:
                     break
             else:
                 # this means there are no intersections, so this room is valid
-
                 # "paint" it to the map's tiles
                 self.create_room(new_room)
 
@@ -358,16 +357,15 @@ class GameMap:
                 enemy_name = enemy_entity["name"]
                 enemy_blocks = enemy_entity["blocks"]
                 
-                # random_mutation_chance = randint(0, 100 - 1)
-                random_mutation_chance = randint(1, 100)
-                buff_or_debuff_chance = randint(1, 20)
+                random_mutation_chance = randint(0, 100 - 1)
+                buff_or_debuff_chance = randint(0, 20 - 1)
+
                 fighter_component = Fighter(hp = enemy_hp, head_hp = enemy_head_hp, chest_hp = enemy_chest_hp, right_arm_hp = enemy_right_arm_hp, left_arm_hp = enemy_left_arm_hp, right_leg_hp = enemy_right_leg_hp, left_leg_hp = enemy_left_leg_hp, toughness = enemy_toughness, strength = enemy_strength, xp = enemy_xp)            
                 ai_component = BasicMonster()
                 # ai_component = RetreatingMonster()
 
-                if random_mutation_chance >= 1 and random_mutation_chance <= 10:
+                if random_mutation_chance >= 1 and random_mutation_chance <= 15:
 
-                    # if buff_or_debuff_chance >= 0 and buff_or_debuff_chance <= 4:
                     if buff_or_debuff_chance >= 1 and buff_or_debuff_chance <= 10:
                         # Get Enemy name length, randomise name and apply it to enemy
                         enemy_debuff_adjectives = data["enemies"]["negative_adjectives"]
@@ -377,8 +375,8 @@ class GameMap:
                         monster_adjective = enemy_debuff_adjectives[random_debuff_adjective_index]
 
                         fighter_component = Fighter(hp = (enemy_hp - randint(0, 4)), head_hp = (enemy_head_hp - randint(0, 15 - 5)), chest_hp = (enemy_chest_hp - randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp - randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp - randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp - randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp - randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength - randint(0, 2 - 1)), xp = (enemy_xp - randint(0, 5)))
-                        monster = Entity(x, y, enemy_char, tc.desaturated_green, monster_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
-
+                        monster = Entity(x, y, enemy_char, tc.white, monster_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+                        
                         # print("enemy_name: " + monster_adjective + " " + enemy_name + '\n' +  \
                         # "enemy_hp: " + str(monster.fighter.hp) + '\n' +  \
                         # "enemy_toughness: " + str(monster.fighter.toughness) + '\n' +  \
@@ -391,7 +389,6 @@ class GameMap:
                         # "enemy_right_leg_hp: " + str(monster.fighter.right_leg_hp) + '\n' +  \
                         # "enemy_left_leg_hp: " + str(monster.fighter.left_leg_hp) + '\n')
 
-                    # elif buff_or_debuff_chance >= 5 and buff_or_debuff_chance <= 19:
                     elif buff_or_debuff_chance >= 11 and buff_or_debuff_chance <= 20:
                         # Get Enemy name length, randomise name and apply it to enemy
                         enemy_buff_adjectives = data["enemies"]["positive_adjectives"]
@@ -401,7 +398,7 @@ class GameMap:
                         monster_adjective = enemy_buff_adjectives[random_buff_adjective_index]
 
                         fighter_component = Fighter(hp = (enemy_hp + randint(0, 4)), head_hp = (enemy_head_hp + randint(0, 15 - 5)), chest_hp = (enemy_chest_hp + randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp + randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp + randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp + randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp + randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength + randint(0, 2 - 1)), xp = (enemy_xp + randint(0, 10 - 5)))
-                        monster = Entity(x, y, enemy_char, tc.desaturated_green, monster_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+                        monster = Entity(x, y, enemy_char, tc.red, monster_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
                         # print("enemy_name: " + monster_adjective + " " + enemy_name + '\n' +  \
                         # "enemy_hp: " + str(monster.fighter.hp) + '\n' +  \
@@ -491,10 +488,10 @@ class GameMap:
                 equipment_char = equipment_list[equipment_index]["char"]
                 equipment_name = equipment_list[equipment_index]["Name"]
 
-                random_mutation_chance = randint(1, 100)
-                buff_or_debuff_chance = randint(1, 20)
+                random_mutation_chance = randint(0, 100 - 1)
+                buff_or_debuff_chance = randint(0, 20 - 1)
 
-                if random_mutation_chance >= 1 and random_mutation_chance <= 17:
+                if random_mutation_chance >= 1 and random_mutation_chance <= 15:
                     if buff_or_debuff_chance >= 1 and buff_or_debuff_chance <= 12:
 
                         buff_equipment_max_quality_index_length = len(data["items"]["equipment_adjectives"]["positive_adjectives"])

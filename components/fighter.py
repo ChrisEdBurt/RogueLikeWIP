@@ -3,7 +3,6 @@ import tcod as tc
 from random import randint
 from game_messages import Message
 from loader_functions.data_loaders import load_json
-# from entity import drop_inventory
 
 class Fighter:
     def __init__(self, hp, head_hp, chest_hp, right_arm_hp, left_arm_hp, right_leg_hp, left_leg_hp, toughness, strength, xp = 0):
@@ -211,7 +210,6 @@ class Fighter:
                 if ' ' in enemy_name:
                     enemy_name_split =  enemy_name.split(' ')
                     enemy_name = enemy_name_split[1]
-                    # special_info = data["enemy_list"]["enemy_name"][enemy_name]["fighter"]["special_attacks"]
                     special_info = data["enemy_list"]["enemy_name"][enemy_name.capitalize()]["fighter"]["special_attacks"]
 
                 else:
@@ -261,6 +259,14 @@ class Fighter:
                         self.owner.fighter.turns_since_special = 0
                         return results
 
+                    else:
+                        results.append({'message': Message('{0} got hit by an unknown attack, you lost 5 life points'.format(self.owner.name.capitalize()), tc.red)})
+                        target.fighter.hp -= 5  
+
+                        self.owner.fighter.turns_since_special = 0
+                        return results
+
+
             if self.owner.name.capitalize() == "You":
 
                 if self.owner.equipment.main_hand != None:
@@ -271,22 +277,17 @@ class Fighter:
                         weapon_name = weapon_name_split[1]
                         
                     if weapon_name in data["items"]["special_attacks"].keys():
-
-                        #Main hand weapon special attack info
                         mainhand_special_info = data["items"]["special_attacks"][weapon_name]
-                        #Number of special attacks
                         mainhand_special_info_length = len(mainhand_special_info)
-                        #Special attack index
                         mainhand_random_special_index = randint(0, mainhand_special_info_length - 1)
-                        #Special attack description
                         mainhand_atack_description = mainhand_special_info[mainhand_random_special_index][1]
-                        #Special attack type Damage or Effect
                         mainhand_attack_type = mainhand_special_info[mainhand_random_special_index][2]
                         
                         if mainhand_attack_type == "Damage": 
                             mainhand_atack_damage = mainhand_special_info[mainhand_random_special_index][3]
                             total_damage = self.attack_damage + mainhand_atack_damage - target.fighter.defense
-                            results.append({'message': Message('{0} for {1} damage'.format(mainhand_atack_description, str(total_damage)), tc.blue)})
+                            # tc.blue
+                            results.append({'message': Message('{0} for {1} damage'.format(mainhand_atack_description, str(total_damage)), tc.yellow)})
                             results.extend(target.fighter.take_damage(total_damage))
                             
                             self.owner.fighter.turns_since_special = 0
@@ -296,7 +297,8 @@ class Fighter:
                             mainhand_atack_effect = mainhand_special_info[mainhand_random_special_index][3]
 
                             if mainhand_atack_effect == "poisoned":
-                                results.append({'message': Message('{0}, you {1} {2}'.format(mainhand_atack_description, mainhand_atack_effect, target.name), tc.blue)})
+                                # tc.blue
+                                results.append({'message': Message('{0}, you {1} {2}'.format(mainhand_atack_description, mainhand_atack_effect, target.name), tc.yellow)})
                                 target.fighter.is_poisoned = True
                                 target.fighter.poison_turns_remaining = 5
 
@@ -322,6 +324,13 @@ class Fighter:
                                 self.owner.fighter.turns_since_special = 0
                                 return results
 
+                            else:
+                                results.append({'message': Message('{0} did an attack but you dont know how.'.format(self.owner.name.capitalize()), tc.red)})
+                                target.fighter.hp -= 5  
+
+                                self.owner.fighter.turns_since_special = 0
+                                return results
+
                 elif self.owner.equipment.both_hand != None:
 
                     weapon_name = self.owner.equipment.both_hand.name
@@ -330,25 +339,17 @@ class Fighter:
                         weapon_name = weapon_name_split[1]
 
                     if weapon_name in data["items"]["special_attacks"].keys(): 
-                        #Both hand weapon special attack info 
                         twohand_special_info = data["items"]["special_attacks"][weapon_name]
-                        #Number of special attacks
                         twohand_special_info_length = len(twohand_special_info)
-
-                        #Special attack index
                         twohand_random_special_index = randint(0, twohand_special_info_length - 1)
-
-                        #Special attack description
                         twohand_atack_description = twohand_special_info[twohand_random_special_index][1]
-
-                        #Special attack type Damage or Effect
                         twohand_attack_type = twohand_special_info[twohand_random_special_index][2]
-
 
                         if twohand_attack_type == "Damage": 
                             twohand_atack_damage = twohand_special_info[twohand_random_special_index][3]
                             total_damage = self.attack_damage + twohand_atack_damage - target.fighter.defense
-                            results.append({'message': Message('{0} for {1} damage'.format(twohand_atack_description, str(total_damage)), tc.blue)})
+                            # tc.blue
+                            results.append({'message': Message('{0} for {1} damage'.format(twohand_atack_description, str(total_damage)), tc.yellow)})
                             results.extend(target.fighter.take_damage(total_damage))
                             
                             self.owner.fighter.turns_since_special = 0
@@ -358,7 +359,8 @@ class Fighter:
                             twohand_atack_effect = twohand_special_info[twohand_random_special_index][3]
 
                             if twohand_atack_effect == "poisoned":
-                                results.append({'message': Message('{0}, you {1} {2}'.format(twohand_atack_description, twohand_atack_effect, target.name), tc.blue)})
+                                # tc.blue
+                                results.append({'message': Message('{0}, you {1} {2}'.format(twohand_atack_description, twohand_atack_effect, target.name), tc.yellow)})   
                                 self.owner.turns_since_special = 0
                                 target.fighter.is_poisoned = True
                                 target.fighter.poison_turns_remaining = 5
@@ -385,6 +387,13 @@ class Fighter:
                                 self.owner.fighter.turns_since_special = 0
                                 return results
 
+                            else:
+                                results.append({'message': Message('{0} did an attack but you dont know how.'.format(self.owner.name.capitalize()), tc.red)})
+                                target.fighter.hp -= 5  
+
+                                self.owner.fighter.turns_since_special = 0
+                                return results
+
                 elif self.owner.equipment.both_hand == None and self.owner.equipment.main_hand == None:
 
                     barehanded_special_info = data["items"]["special_attacks"]["Barehanded"]
@@ -395,7 +404,8 @@ class Fighter:
 
                     damage = self.attack_damage + barehanded_atack_damage - target.fighter.defense
                     
-                    results.append({'message': Message('{0} for {1} damage'.format(barehanded_atack_description, str(damage)), tc.blue)})
+                    # results.append({'message': Message('{0} for {1} damage'.format(barehanded_atack_description, str(damage)), tc.blue)})
+                    results.append({'message': Message('{0} for {1} damage'.format(barehanded_atack_description, str(damage)), tc.yellow)})
                     results.extend(target.fighter.take_damage(damage))
 
                     self.owner.fighter.turns_since_special = 0
@@ -443,7 +453,6 @@ class Fighter:
 
             if self.owner.fighter.poison_turns_remaining == 1:
                 poison_damage = int(self.owner.fighter.hp / 25)
-                # poison_damage = int(self.owner.fighter.hp / 50)
                 self.owner.fighter.hp -= poison_damage
                 poison_message = Message('{0} have filtered the last of the poison!'.format(self.owner.name), tc.blue)
                 self.owner.fighter.poison_turns_remaining = 0
@@ -455,7 +464,6 @@ class Fighter:
             else:
                 self.owner.color = tc.green
                 poison_damage = int(self.owner.fighter.hp / 25)
-                # poison_damage = int(self.owner.fighter.hp / 50)
                 self.owner.fighter.hp -= poison_damage
                 poison_message = Message('The poison courses through {0}, it inflicts {1} damage'.format(self.owner.name, str(poison_damage)), tc.red)
                 self.owner.fighter.poison_turns_remaining -= 1
@@ -489,7 +497,6 @@ class Fighter:
 
             if self.owner.fighter.burning_turns_remaining == 1:
                 burning_damage = int(self.owner.fighter.hp / 25)
-                # burning_damage = int(self.owner.fighter.hp / 50)
                 self.owner.fighter.hp -= burning_damage
                 burning_message = Message('{0} were able to extinguish the flames!'.format(self.owner.name), tc.blue)
                 self.owner.fighter.burning_turns_remaining = 0
@@ -501,7 +508,6 @@ class Fighter:
             else:
                 self.owner.color = tc.red
                 burning_damage = int(self.owner.fighter.hp / 25)
-                # burning_damage = int(self.owner.fighter.hp / 50)
                 self.owner.fighter.hp -= burning_damage
                 burning_message = Message('{0} are engulfed in flames, it inflicts {1} damage'.format(self.owner.name, str(burning_damage)), tc.red)
                 self.owner.fighter.burning_turns_remaining -= 1

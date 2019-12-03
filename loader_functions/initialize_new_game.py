@@ -90,14 +90,13 @@ def get_game_variables(constants):
     inventory_component = Inventory(10)
     level_component = Level()
     equipment_component = Equipment()
-    player = Entity(0, 0, 'A', tc.white, 'You', blocks = True, render_order = RenderOrder.ACTOR,
-                    fighter = fighter_component, mage = mage_component, inventory = inventory_component, level = level_component, equipment = equipment_component)  
+    player = Entity(0, 0, 'A', tc.white, 'You', blocks = True, render_order = RenderOrder.ACTOR, fighter = fighter_component, mage = mage_component, inventory = inventory_component, level = level_component, equipment = equipment_component)  
     entities = [player]
 
-    equippable_component = Equippable(EquipmentSlots.HEAD_ARMOUR, defense_bonus = 1, intelligence_bonus = 0)
-    full_helm = Entity(0, 0, 'E', tc.sky, 'Full-Helm', equippable = equippable_component)
-    player.inventory.add_item(full_helm)
-    player.equipment.toggle_equip(full_helm)
+    # equippable_component = Equippable(EquipmentSlots.HEAD_ARMOUR, defense_bonus = 1, intelligence_bonus = 0)
+    # full_helm = Entity(0, 0, 'E', tc.sky, 'Full-Helm', equippable = equippable_component)
+    # player.inventory.add_item(full_helm)
+    # player.equipment.toggle_equip(full_helm)
 
     equippable_component = Equippable(EquipmentSlots.CHEST_ARMOUR, defense_bonus = 1, intelligence_bonus = 0)
     cloth_shirt = Entity(0, 0, 'E', tc.sky, 'Cloth Shirt', equippable = equippable_component)

@@ -214,21 +214,8 @@ def spawn_enemy(mouse_x, mouse_y, entities, dungeon_level):
         
         choices = list(enemy_list.keys())
         enemy_index = choices[random_monster_index]
-        # enemy_index = choices[18]
-        # enemy_index = choices[23]
-
-        # # Get Enemy name length, randomise name and apply it to enemy
-        # enemy_adjectives = data["enemies"]["adjectives"]
-        # max_enemy_name_index = len(enemy_adjectives)
-        # random_adjective_index = randint(0, max_enemy_name_index - 1)
-        # monster_adjective = enemy_adjectives[random_adjective_index]
 
         enemy_figher = enemy_list[enemy_index]["fighter"]
-        
-        # enemy_hp = enemy_figher["hp"]
-        # enemy_toughness = enemy_figher["toughness"]
-        # enemy_strength = enemy_figher["strength"]
-        # enemy_xp = enemy_figher["xp"]
 
         enemy_hp =  from_dungeon_level(enemy_figher["hp"], dungeon_level)
         enemy_toughness = from_dungeon_level(enemy_figher["toughness"], dungeon_level)
@@ -263,18 +250,8 @@ def spawn_enemy(mouse_x, mouse_y, entities, dungeon_level):
                 monster_debuff_adjective = enemy_debuff_adjectives[random_debuff_adjective_index]
 
                 fighter_component = Fighter(hp = (enemy_hp - randint(0, 4)), head_hp = (enemy_head_hp - randint(0, 15 - 5)), chest_hp = (enemy_chest_hp - randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp - randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp - randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp - randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp - randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength - randint(0, 2 - 1)), xp = (enemy_xp - randint(0, 5)))
-                monster = Entity(x, y, enemy_char, tc.desaturated_green, monster_debuff_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+                monster = Entity(x, y, enemy_char, tc.white, monster_debuff_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
-                # print("enemy_hp: " + str(enemy_hp) + '\n' +  \
-                #     "enemy_toughness: " + str(enemy_toughness) + '\n' +  \
-                #     "enemy_strength: " + str(enemy_strength) + '\n' +  \
-                #     "enemy_xp: " + str(enemy_xp) + '\n' +  \
-                #     "enemy_head_hp: " + str(enemy_head_hp) + '\n' +  \
-                #     "enemy_chest_hp: " + str(enemy_chest_hp) + '\n' +  \
-                #     "enemy_right_arm_hp: " + str(enemy_right_arm_hp) + '\n' +  \
-                #     "enemy_left_arm_hp: " + str(enemy_left_arm_hp) + '\n' +  \
-                #     "enemy_right_leg_hp: " + str(enemy_right_leg_hp) + '\n' +  \
-                #     "enemy_left_leg_hp: " + str(enemy_left_leg_hp) + '\n') 
 
             elif buff_or_debuff_chance >= 11 and buff_or_debuff_chance <= 20:
                 # Get Enemy name length, randomise name and apply it to enemy
@@ -285,16 +262,12 @@ def spawn_enemy(mouse_x, mouse_y, entities, dungeon_level):
                 monster_buff_adjective = enemy_buff_adjectives[random_buff_adjective_index]
 
                 fighter_component = Fighter(hp = (enemy_hp + randint(0, 4)), head_hp = (enemy_head_hp + randint(0, 15 - 5)), chest_hp = (enemy_chest_hp + randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp + randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp + randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp + randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp + randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength + randint(0, 2 - 1)), xp = (enemy_xp + randint(0, 10 - 5)))
-                monster = Entity(x, y, enemy_char, tc.desaturated_green, monster_buff_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+                monster = Entity(x, y, enemy_char, tc.red, monster_buff_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
         else:
             monster = Entity(x, y, enemy_char, tc.desaturated_green, enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
         entities.append(monster)
-
-        # equippable_component = Equippable("MAIN_HAND", strength_bonus = 5)
-        # item = Entity(monster.x - 1, monster.y - 1, 'W' , tc.sky, "Morning-Star", equippable=equippable_component)
-        # entities.append(item)
 
 def cycle_target_distance_to(self, other):
     dx = other.x - self.x

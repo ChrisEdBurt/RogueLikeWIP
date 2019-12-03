@@ -136,26 +136,26 @@ CONTROLS
 	MOVEMENT KEYS
 		Number pad 0-9 - Controls movement in all directions, including diagonals.
 	OTHER
-		E - Picks up items on the ground
-		T - Waits a turn
-		I - Displays inventory menu
-		D - Displays inventory item drop menu
-		C - Shows the character menu
+		e - Picks up items on the ground
+		t - Waits a turn
+		i - Displays inventory menu
+		d - Displays inventory item drop menu
+		c - Shows the character menu
 		ESC - Closes the game or any menu showing
 		R/L Mouse - LM Targeting for AOE based attacks, RM will cancel targeting.
 		ENTER - Climbs the flight of stairs up/down
-		R - Cycles target in targeting mode.
+		r - Cycles target in targeting mode.
 		P - God mode.
-		Y - Burning mode.
-		U - Poison mode.
-		M - Reveal map/FOV mode.(Also shows present enemies even outside of view)
-		/ - Increase limb damage.
-		. - Decrease limb damage.
+		y - Burning mode.
+		u - Poison mode.
+		m - Reveal map/FOV mode.(Also shows present enemies even outside of view)
+		/ - Show help menu
+		. - Increase limb damage.
+		, - Decrease limb damage.
 		O - Teleport to one tile right of the down stairs.
 		SPACE - Spawn enemy.
 		R Mouse - Teleport player.
 	
- 
 ------------------------------------------------------------------------------------------------
 STORY
      Refer to Story-Outline.docx
@@ -204,9 +204,12 @@ COMBAT
 			Skill debuffs – Dexterity, Strength, Charisma, Vitality, Intelligence
 		HEADS moderately->severely damaged:
 			Hit chance is reduced(NOT IMPLEMENTED)
-
+			
+------------------------------------------------------------------------------------------------
 ITEM & MONSTER Randomized Names
+
 	ITEM EXAMPLE: Festering sword, Old Shield, Rusty Dagger.
 		Depending on the adjective, there will be different effects for the item. More damage, more defence, more intelligence, elemental attacks, poison, etc..
-	MONSTER EXAMPLE: Ugly Kobold, Mean-looking Rat, Putrid Troll	
+	
+MONSTER EXAMPLE: Ugly Kobold, Mean-looking Rat, Putrid Troll	
 		Depending on the adjective, there will be different effects for the monster. More Strength, more Intelligence, more Heath, etc..

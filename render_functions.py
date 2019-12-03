@@ -40,14 +40,12 @@ def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_c
     if bar_width > 0:
         tc.console_rect(panel, x + 16, y + 1, bar_width, 1, False, tc.BKGND_SCREEN)
 
-    # body_panel.default_fg(panel, tc.white)
     panel.default_fg = tc.white
     tc.console_print_ex(panel, int(x + total_width / 2) + 16, y + 1, tc.BKGND_NONE, tc.CENTER, '{0}: {1}/{2}'.format(name, value, maximum))
     
     tc.console_hline(panel, x - 1 , y - 1 , 133)
     tc.console_hline(panel, x - 1, y + 8, 133)    
     tc.console_vline(panel, x + 37, y, 8)
-    # tc.console_vline(panel, x + 131, y, 8)
 
 fov_recompute = False
 
@@ -74,7 +72,6 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
                     else:
                         tc.console_set_char_background(con, x, y, tc.darkest_sepia, tc.BKGND_SET)
 
-
     entities_in_render_order = sorted(entities, key=lambda x: x.render_order.value)
 
     # Draw all entities in the list
@@ -85,24 +82,17 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
 
     tc.console_set_default_background(panel, tc.black)
     panel.clear()
-    # tc.console_clear(panel)
-
-    # Print the game messages, one line at a time
-    # y = 1
     y = 0
 
     for message in message_log.messages:
-        # body_panel.default_fg(panel, message.color)
         panel.default_fg = message.color
 
-        # tc.console_print_ex(panel, message_log.x + 15, y, tc.BKGND_NONE, tc.LEFT, message.text)
         tc.console_print_ex(panel, (screen_width - screen_width) + 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
         y += 1
     
     render_bar(panel, 1 - 3, 1, bar_width, 'HP', player.fighter.hp, player.fighter.max_hp,tc.light_red, tc.darker_red)
     tc.console_print_ex(panel, 15, 5, tc.BKGND_NONE, tc.LEFT,'Dungeon level: {0}'.format(game_map.dungeon_level))
         
-    # body_panel.default_fg(panel, tc.light_gray)
     panel.default_fg = tc.light_gray
 
     tc.console_blit(panel, 0, 0, screen_width, panel_height + 1, 0, 0, panel_y)
@@ -319,7 +309,6 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
 
     tc.console_blit(body_panel, 0, 0, body_panel.width, body_panel.height, 0, 0, screen_height - body_panel.height + 1, 1.0, 1.0)
 
-
     ##BODY POISON/BURNING PANEL
     status_panel = tc.console.Console(18, 11)
     status_panel.draw_frame(0, 0, status_panel.width, status_panel.height - 1, "Status", False, fg=tc.white, bg=tc.black)
@@ -373,5 +362,4 @@ def draw_overworld(con, entity, fov_map, game_map):
     tc.console_put_char(con, entity.x, entity.y, entity.char, tc.BKGND_NONE)
 
 def clear_entity(con, entity):
-    # erase the character that represents this object
     tc.console_put_char(con, entity.x, entity.y, ' ', tc.BKGND_NONE)

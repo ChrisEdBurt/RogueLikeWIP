@@ -11,7 +11,7 @@ from entity import get_blocking_entities_at_location, spawn_enemy, cycle_target_
 from fov_functions import initialize_fov, recompute_fov
 from game_messages import Message
 from game_states import GameStates
-from input_handlers import handle_keys, handle_mouse, handle_main_menu, handle_tutorial_menu, handle_mouse_teleport
+from input_handlers import handle_keys, handle_mouse, handle_main_menu, handle_tutorial_menu, handle_mouse_teleport, handle_help_menu
 from loader_functions.initialize_new_game import get_constants, get_game_variables
 from loader_functions.data_loaders import load_game, save_game, load_json
 from menus import main_menu, message_box
@@ -72,6 +72,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
         fullscreen = action.get('fullscreen')
         god_mode = action.get('god_mode')
 
+        show_help = action.get('show_help')
+
         cycle_target = action.get('cycle_target')
         cycle_target_right = action.get('right_target')
         cycle_target_left = action.get('left_target')
@@ -113,12 +115,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
                     fov_recompute = True
 
-                # if player.fighter.is_poisoned == True:
-                #     player.fighter.take_poison_damage
 
                 if player.fighter.turns_since_special <= 5:
                     player.fighter.turns_since_special += 1
-                # print(player.fighter.turns_since_special)
 
                 game_state = GameStates.ENEMY_TURN
 
@@ -126,7 +125,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
             if player.fighter.turns_since_special <= 5:
                 player.fighter.turns_since_special += 1
-            # print(player.fighter.turns_since_special)
 
             game_state = GameStates.ENEMY_TURN
 
@@ -147,6 +145,10 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
         if drop_inventory:
             previous_game_state = game_state
             game_state = GameStates.DROP_INVENTORY
+
+        if show_help:
+            previous_game_state = game_state
+            game_state = GameStates.SHOW_TUTORIAL
 
         if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(player.inventory.items):
             item = player.inventory.items[inventory_index]
@@ -169,7 +171,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     fov_map = initialize_fov(game_map)
                     fov_recompute = True
                     con.clear()
-                    # tc.console_clear(con)
                     break
 
                 elif entity.stairs and entity.x == player.x and entity.y == player.y and entity.stairs.direction == 'up':
@@ -177,7 +178,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     fov_map = initialize_fov(game_map)
                     fov_recompute = True
                     con.clear()
-                    # tc.console_clear(con)
                     break
 
                 elif entity.area and entity.x == player.x and entity.y == player.y:
@@ -185,85 +185,10 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     fov_map = initialize_fov(game_map)
                     fov_recompute = True
                     con.clear()
-                    # tc.console_clear(con)
                     break
 
             else:
                 message_log.add_message(Message('There are no stairs here.', tc.yellow))
-
-                # Giant_Ant = 0
-                # Snake = 0
-                # Rat = 0
-                # Orc = 0
-                # Kobold = 0
-                # Spider = 0
-                # Lizard = 0
-                # Bear = 0
-                # Goblin = 0
-                # Giant_Bat = 0
-                # Troll = 0
-                # Salamander = 0
-                # Monkey = 0
-                # Cimim = 0
-                # Slime = 0
-                # Skeleton = 0
-                # Giant = 0
-                # Lich = 0
-                # Dragon = 0
-                # Zombie = 0
-                # Nymph = 0
-
-                # for entity in entities:
-
-                #     if entity.name == "Giant Ant":
-                #         Giant_Ant += 1
-                #     elif entity.name == "Snake":
-                #         Snake += 1
-                #     elif entity.name == "Rat":
-                #         Rat += 1
-                #     elif entity.name == "Orc":
-                #         Orc += 1
-                #     elif entity.name == "Kobold":
-                #         Kobold += 1
-                #     elif entity.name == "Spider":
-                #         Spider += 1
-                #     elif entity.name == "Lizard":
-                #         Lizard += 1
-                #     elif entity.name == "Bear":
-                #         Bear += 1
-                #     elif entity.name == "Goblin":
-                #         Goblin += 1
-                #     elif entity.name == "Giant Bat":
-                #         Giant_Bat += 1
-                #     elif entity.name == "Troll":
-                #         Troll += 1
-                #     elif entity.name == "Salamander":
-                #         Salamander += 1
-                #     elif entity.name == "Monkey":
-                #         Monkey += 1
-                #     elif entity.name == "Cimim":
-                #         Cimim += 1
-                #     elif entity.name == "Slime":
-                #         Slime += 1
-                #     elif entity.name == "Skeleton":
-                #         Skeleton += 1
-                #     elif entity.name == "Giant":
-                #         Giant += 1
-                #     elif entity.name == "Lich":
-                #         Lich += 1
-                #     elif entity.name == "Dragon":
-                #         Dragon += 1
-                #     elif entity.name == "Zombie":
-                #         Nymph += 1
-                #     elif entity.name == "Nymph":
-                #         Nymph += 1
-
-                # print("Giant Ant: " + str(Giant_Ant) + "\n" + "Snake: " +  str(Snake) + "\n" + "Rat: " +  str(Rat) + "\n" + "Orc: " +  str(Orc) + "\n" \
-                #     + "Kobold: " +  str(Kobold) +"\n" + "Spider: " +  str(Spider) +"\n" + "Lizard: " +  str(Lizard) +"\n" + "Bear: " +  str(Bear) +"\n" \
-                #         + "Goblin: " +  str(Goblin) +"\n" + "Giant Bat: " +  str(Giant_Bat) +"\n" + "Troll : " +  str(Troll) +"\n" +  "Salamander: " +  str(Salamander) +"\n" \
-                #             + "Monkey: " +  str(Monkey) +"\n" + "Cimim: " +  str(Cimim) +"\n" + "Slime: " +  str(Slime) +"\n" + "Skeleton: " +  str(Skeleton) +"\n" \
-                #                 + "Giant: " +  str(Giant) +"\n" + "Lich: " +  str(Lich) +"\n" + "Dragon: " +  str(Dragon) +"\n" + "Zombie: " +  str(Zombie) +"\n" \
-                #                     + "Nymph: " +  str(Nymph) +"\n")
  
         if cycle_target:
             previous_game_state = game_state
@@ -276,54 +201,29 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     if tc.map_is_in_fov(fov_map, entity.x, entity.y):
                         visible_enemies.append([cycle_target_distance_to(player, entity),entity.x, entity.y, entity.name])
 
-                        # print("Enemy Name: " + entity.name)
-                        # print("Distance to enemy: " + str(cycle_target_distance_to(player, entity)))
-
             if len(visible_enemies) != 0:
-
-                # tc.console_set_default_background(con, tc.black)
                 con.default_fg = tc.black
-                # tc.console_set_default_foreground(con, tc.white)
                 con.default_fg = tc.white
-
-                # tc.console_print_ex(con, int(constants['screen_width'] / 2), 1, tc.BKGND_NONE, tc.CENTER,'Press RIGHT arrow or LEFT arrow key to cycle targets or ESCAPE to cancel targeting'.format())
                 con.print(int(constants['screen_width'] / 2), 1, 'Press RIGHT arrow or LEFT arrow key to cycle targets or ESCAPE to cancel targeting'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-                
                 tc.console_blit(con, 0, 0, constants['screen_width'], constants['screen_height'], 0, 0, 0)
-
                 visible_enemies.sort()  
-                # con.draw_frame(visible_enemies[0][1] - 1, visible_enemies[0][2] - 1 , 3, 3, "", True, fg=tc.white, bg=tc.black)
-                # tc.console_print_ex(con, visible_enemies[0][1] - 1, visible_enemies[0][2] - 2, tc.BKGND_NONE, tc.CENTER,'{0}'.format(visible_enemies[0][3], tc.white))
-
                 room_enemies_length = len(visible_enemies)
 
             else:
-                # tc.console_print_ex(con, int(constants['screen_width'] / 2), 1, tc.BKGND_NONE, tc.CENTER,'There are no enemies present! Press ESCAPE to cancel targeting'.format())
                 con.print(int(constants['screen_width'] / 2), 1, 'There are no enemies present! Press ESCAPE to cancel targeting'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-
-            # print('\n')
-            # for x in visible_enemies:
-            #     print(x)
 
         if cycle_target_right:
             if len(visible_enemies) != 0:    
                 fov_recompute = True
                 
                 con.clear()
-                # tc.console_clear(con)
-
-                # tc.console_set_default_background(con, tc.black)
                 con.default_fg = tc.black
-                # tc.console_set_default_foreground(con, tc.white)
                 con.default_fg = tc.white
-
-                # tc.console_print_ex(con, int(constants['screen_width'] / 2), 1, tc.BKGND_NONE, tc.CENTER,'Press RIGHT arrow or LEFT arrow key to cycle targets or ESCAPE to cancel targeting'.format())
+                
                 con.print(int(constants['screen_width'] / 2), 1, 'Press RIGHT arrow or LEFT arrow key to cycle targets or ESCAPE to cancel targeting'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-                
                 tc.console_blit(con, 0, 0, constants['screen_width'], constants['screen_height'], 0, 0, 0)
-                con.draw_frame((visible_enemies[room_enemies_index][1]) - 1, (visible_enemies[room_enemies_index][2]) - 1 , 3, 3, "", True, fg=tc.white, bg=tc.black)
                 
-                # tc.console_print_ex(con, (visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, tc.BKGND_NONE, tc.CENTER,'{0}'.format(visible_enemies[room_enemies_index][3], tc.white))
+                con.draw_frame((visible_enemies[room_enemies_index][1]) - 1, (visible_enemies[room_enemies_index][2]) - 1 , 3, 3, "", True, fg=tc.white, bg=tc.black)
                 con.print((visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, '{0}'.format(visible_enemies[room_enemies_index][3]), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
 
                 for entity in entities:
@@ -331,7 +231,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                         if visible_enemies[room_enemies_index][3] == entity.name:
                                 names = entity.name
                                 names = names + ' ' + Mage.get_stats(entity) + Fighter.get_stats(entity)
-                                # names = ''.join(names) + ' ' + Mage.get_stats(entity) + Fighter.get_stats(entity)
                                 con.print((visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, '{0}'.format(names, tc.white), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
 
                 if room_enemies_index == room_enemies_length - 1:
@@ -344,20 +243,13 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 fov_recompute = True
 
                 con.clear()
-                    # tc.console_clear(con)
-                
-                # tc.console_set_default_background(con, tc.black)
-                con.default_fg = tc.black
-                # tc.console_set_default_foreground(con, tc.white)
-                con.default_fg = tc.white
 
-                # tc.console_print_ex(con, int(constants['screen_width'] / 2), 1, tc.BKGND_NONE, tc.CENTER,'Press RIGHT arrow or LEFT arrow key to cycle targets or ESCAPE to cancel targeting'.format())
+                con.default_fg = tc.black
+                con.default_fg = tc.white
                 con.print(int(constants['screen_width'] / 2), 1, 'Press RIGHT arrow or LEFT arrow key to cycle targets or ESCAPE to cancel targeting'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
                 
                 tc.console_blit(con, 0, 0, constants['screen_width'], constants['screen_height'], 0, 0, 0)
                 con.draw_frame((visible_enemies[room_enemies_index][1]) - 1, (visible_enemies[room_enemies_index][2]) - 1 , 3, 3, "", True, fg=tc.white, bg=tc.black)
-                
-                # tc.console_print_ex(con, (visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, tc.BKGND_NONE, tc.CENTER,'{0}'.format(visible_enemies[room_enemies_index][3]), tc.white))
                 con.print((visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, '{0}'.format(visible_enemies[room_enemies_index][3]), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
 
                 for entity in entities:
@@ -365,9 +257,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                         if visible_enemies[room_enemies_index][3] == entity.name:
                                 names = entity.name
                                 names = names + ' ' + Mage.get_stats(entity) + Fighter.get_stats(entity)
-                                # names = ''.join(names) + ' ' + Mage.get_stats(entity) + Fighter.get_stats(entity)
-                                
-                                # tc.console_print_ex(con, (visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, tc.BKGND_NONE, tc.CENTER,'{0}'.format(names, tc.white))
                                 con.print((visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, '{0}'.format(names, tc.white), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
 
                 if room_enemies_index == 0:
@@ -396,16 +285,13 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 for i in range(len(game_map.tiles)):
                     for j in range(len(game_map.tiles[i])):
                         if not game_map.tiles[i][j].blocked:
-                        # if not game_map.tiles[i][j].block_sight and not game_map.tiles[i][j].blocked:
                             game_map.tiles[i][j].explored = True
                             game_map.tiles[i][j].block_sight = False
                         
                 fov_map = initialize_fov(game_map)
                 fov_recompute = True
 
-                # tc.console_set_default_background(con, tc.black)
                 con.default_fg = tc.black
-                # tc.console_set_default_foreground(con, tc.white)
                 con.default_fg = tc.white
 
                 for entity in entities:
@@ -423,7 +309,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
                 fov_recompute = True
                 con.clear()
-                    # tc.console_clear(con)
 
         if spawn_enemy_at:
             mouse_x = mouse.cx
@@ -532,8 +417,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 player_turn_results.append({'targeting_cancelled': True})
 
         if exit:
-            # if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY, GameStates.CHARACTER_SCREEN):
-            # if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY, GameStates.CHARACTER_SCREEN, GameStates.RANGED):
             if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY, GameStates.CHARACTER_SCREEN, GameStates.RANGED):
                 game_state = previous_game_state
             
@@ -616,9 +499,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     if failed:
                         message_log.add_message(Message('You failed to equip the {0} due to your injuries'.format(failed.name)))
 
-                # if player.fighter.is_poisoned == True:
-                #     player.fighter.take_poison_damage
-
                 game_state = GameStates.ENEMY_TURN
 
             if targeting:
@@ -700,11 +580,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
         if game_state == GameStates.SHOW_TUTORIAL:
 
-            # panel.default_bg = tc.white
-            # panel.default_fg = tc.black
-            # con.default_bg = tc.black
-            # con.default_fg = tc.white
-
             (center_x,center_y) = (int(constants['screen_width'] / 2), int(constants['screen_height'] / 2))
 
             tutorial_panel = tc.console.Console(92, 40)
@@ -736,14 +611,13 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             close_tutorial = action.get('close_tutorial')
 
             if close_tutorial:
-                # con.clear()
-                con.clear(32, (63, 127, 63), )
+                con.clear()
+                # con.clear(32, (0, 0, 0), )
                 clear_all(con, entities)
                 fov_map = initialize_fov(game_map)
                 fov_recompute = True
-                # con.clear()
-                con.clear(32, (63, 127, 63), )
-
+                con.clear()
+                # con.clear(32, (0, 0, 0), )
                 game_state = GameStates.PLAYERS_TURN
 
 
@@ -809,12 +683,9 @@ def main():
                 break
 
         else:
-            con.clear(32, (63, 127, 63), )
-            # (ch: int = 32,fg: Tuple[int,int,int] = Ellipsis,bg: Tuple[int,int,int] = Ellipsis)
-
-
+            # con.clear(32, (63, 127, 63), )
+            con.clear()
             play_game(player, entities, game_map, message_log, game_state, con, panel, constants)
-
             show_main_menu = True
 
 if __name__ == '__main__':

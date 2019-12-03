@@ -95,10 +95,10 @@ def handle_player_turn_keys(key):
     elif key_char == 'm':
         return {'reveal_map': True}
     # / INCREASE LIMB DAMAGE
-    elif key_char == '/':
+    elif key_char == '.':
         return {'increase_limb_damage': True}
     # / DECREASE LIMB DAMAGE
-    elif key_char == '.':
+    elif key_char == ',':
         return {'decrease_limb_damage': True}
     # o TELEPORT
     elif key_char == 'o':
@@ -106,6 +106,10 @@ def handle_player_turn_keys(key):
     # SPWAN ENEMY
     elif key.vk == tc.KEY_SPACE:
         return {'spawn_enemy_at' : True}
+    
+    # SHOW HELP
+    elif key_char == '/':
+        return {'show_help' : True}
 
     # Alt: toggle full screen
     if key.vk == tc.KEY_1:
@@ -224,6 +228,16 @@ def handle_tutorial_menu(key):
     # if key.vk == tc.KEY_ESCAPE or key.vk == tc.KEY_ENTER:
     if key.vk == tc.KEY_ESCAPE:
     # if key.vk == tc.KEY_ESCAPE or key.vk == tc.KEY_ESCAPE:
+        return {'close_tutorial': True}
+
+    return {}
+
+def handle_help_menu(key):
+    key_char = chr(key.c)
+
+    if key_char == '/':
+        return {'close_tutorial': True}
+    elif key.vk == tc.KEY_ESCAPE:
         return {'close_tutorial': True}
 
     return {}
