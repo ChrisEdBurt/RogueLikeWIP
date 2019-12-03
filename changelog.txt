@@ -1,0 +1,129 @@
+CHANGELOG
+------------------------------------------------------------------------------------------------
+
+1.0.6 -
+	Monster special changes.
+	Removed poison/buring from AI class.
+	Weapon unusable if arms are severly damaged.
+	Limb health, Status checks, Special attacks added to Fighter class.
+	Renamed "Player" to "You".
+	Various changes to Data.json.
+	Monster colour changes.
+	Spwan, Enemy, Cycle Target, etc.. added to Engine.py/Entity.
+	Added new Health mechanics to Entity/Fighter classes.
+	Show Tutorial/Cycle Target states added.
+	Heal limb added to potion/level changing.
+	Various formatting for documentation.
+	Changed name and removed image.
+
+1.0.5 -
+	Added gitignore file 
+	Changed build files to make one file with required resource files
+	Added AI else check if no moves are possible to prevent crash in corridors.
+	Added chest armour check for equipment bonus.
+	Added arms/leg/chest and head health to fighter comoponent.
+	Added strength and toughness properties.
+	Added limb damage based on double damage value.
+	Updated mouse over stat display to use str/tough.
+	Reduced inventory size to 10.
+	Added increase/decrease limb buttons.
+	Changed stairs teleport to only down.
+	Increased panel height.
+	Decreased map height to allow for larger panel.
+	Updated enemies constructor to allow for tough/str. 
+	Increased their attack.
+	Added cloth shirt.
+	Removed staff of fire.
+	Removed mage robes.
+	Changed chest to cimim.
+	Changed char/inven/level/panel to show borders and updated UI. 
+	Introduced body health panel.
+	Repositioned message panel.
+	Repositioned mouse over display.
+	Added lists for limb for formatting purposes.
+	 
+1.0.4 -
+	 Formatting. Line removals, etc...
+	 RetreatingMonster. Imported required maths components. Monster will flee from player in a randon valid direction as long as it is less than 5 distance to player. Life remaining triggers Flee state.
+	 Added Area.
+	 Added Item used to inventory.
+	 Targeting and Ranged to Items.
+	 Added Ranged inventory logic.
+	 Changed teleport to move to up stairs.
+	 Entity can have ranged, uses and area.
+	 Added move away function.(Likely to be removed next patch)
+	 Ranged game state.
+	 Ranged Menu key = R.
+	 Ranged Menu key bindings (doesnt work)
+	 Magic added to Items. - Placeholder until more fleshed out.
+	 Screen width/heighth = 130/65
+	 Map width/height 130/58
+	 Player spawns with StaffFire to test Ranged menu.
+	 Gamemap imports Retreat\Area.
+	 Make town/overworld methods.
+	 Tiles building_wall, building, earth added. (Remove later)
+	 Added Maps and town txt files for static map generation.
+	 Formatting for the inventory.(Works terribly, will address next)
+	 Get enemies stats + X\Y on mouseover.
+	 Custom rendering for Overworld/Town.
+
+1.0.3 -
+	 Added chest armour slot - Including Intelligence attribute
+	 Added both_hand slot - Two handed weapons take up both slots          
+	 Changed power to Strength
+	 Get_stats method for fighter and mage class - both return the owners stats (Groundwork for later skill addition)
+	 Add mage component - (Added to player now, added to enemies later)
+	 Added data.JSON file (contains game data, attempting to move this out of the code and engine) - currently this includes adjectives for enemies and items as well as the definitions for enemies to build from (data building NOT WORKING YET)
+	 Changed teleport to move player to down stairs plus 1 tile down
+	 Added mage to Entity class
+	 Added load_json to data_loader class
+	 Increased screen width and height to 100 and 65 from 80 and 50
+	 Increased map width and height to 100 and 58 from 80 and 43
+	 Added Mage Robes to player upon start
+	 Changed name of stairs to make it easier to find UP/DOWN
+	 Added zweihander, polearm, staff
+	 Changed the values for item spanwing, as well as cimim %
+	 Added item/monster adjective system - in data.JSON the pairs have been added but not coded yet.
+	 Changed chest colour to green, should change this back 
+	 Increased the size of the menu_bakground image, pilezation has occured.
+	 Added Intelligence to Character menu, inventory screen
+	 Changed equipment flags in inventory to MH, OH, 2H, HD, BDY
+	 Various formatting throughout the project.
+
+1.0.2 -
+	Lines removed, imports bunched together, misc formatting.
+	Chest class added, chest logic added to Game_Map
+	Check if player added to Inventory for when monsters drop items.
+	Teleport added.
+	Enemy dropping loot added if cimim.
+	Dropping/picking up items no longer ends turn.
+	DEBUG_MENU/DUNGEONING states added, no functionality yet.
+	O key is teleport, it should be to the stairs but not always, sometimes items.
+	Added FOV back to game, tiles aren`t explored by default.
+
+1.0.1 - 
+	Added P God Mode button.
+	Saving and loading now work.
+	Added Kobold, Club, Dirk, Rat.
+	Changed + attack values for some of the original gear, changed spawning rates for monsters.
+	Added up stairs and overworld, changed stair logic and moved warning message to outside of loop.
+	Removed FOV for testing purposes.
+	Add helm(Head Armour slot) and shield on start.
+	Removed saved to JSON.
+	Add Overworld State.
+	Changed Name and Title.
+	Add create_overworld method to create static one map sized room.
+	Implemented basic Invenory formatting.
+	Changed Inventory Message upon open.
+	 
+1.0.0 - 
+	Roguelike tutorial finished with all the bells and whistles that it offers.
+
+
+
+ 
+
+
+     
+
+     

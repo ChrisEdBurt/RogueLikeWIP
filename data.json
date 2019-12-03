@@ -1,0 +1,821 @@
+{
+  "enemy_list": {
+    "enemy_name": {
+      "Giant-Ant": {
+        "fighter": {
+          "hp": [[20, 1],[23, 2],[26,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[35, 1],[40, 2],[45,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Bite", "gnaws you violently", "Damage", 4], ["Crush", "applies immense pressure to you", "Damage", 4], ["Dissolving Fluid", "drenches you in acidic fluid", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "g",
+          "colour": "tc.desaturated_green",
+          "name": "Giant-Ant",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Rat": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Bite", "chews you wildly" ,"Damage", 4], ["Claw", "claws you in a frenzy" ,"Damage", 5], ["Shreik", "emits a deafening screech" ,"Damage", 5]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "r",
+          "colour": "tc.desaturated_green",
+          "name": "Rat",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Snake": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Pierce", "plunges it's fangs into you", "Damage", 4], ["Poison Spit", "spits venom on you", "Effect", "poisoned"]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "s",
+          "colour": "tc.desaturated_green",
+          "name": "Snake",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Orc": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Face Smash", "slams weapon into your face", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "o",
+          "colour": "tc.desaturated_green",
+          "name": "Orc",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Kobold": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Low Blow", "chops at your shins", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "k",
+          "colour": "tc.desaturated_green",
+          "name": "Kobold",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Spider": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Special", "plunges it's venemous fangs into you", "Effect", "poisoned"], ["Covers Face", "shoots web at your face, you can't breath", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "s",
+          "colour": "tc.desaturated_green",
+          "name": "Spider",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Lizard": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Tail Smash", "slams its tail into your ribs", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "l",
+          "colour": "tc.desaturated_green",
+          "name": "Lizard",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Bear": {
+        "fighter": {
+          "hp": [[16, 1],[18, 2],[21,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[40, 1],[45, 2],[50,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Bear Hug", "crushes your chest with a bear hug", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "B",
+          "colour": "tc.desaturated_green",
+          "name": "Bear",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Goblin": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Goblin Special", "laughs maniacally as it stabs at your eyes", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "g",
+          "colour": "tc.desaturated_green",
+          "name": "Goblin",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Giant-Bat": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Ultrasonic Pulse", "emits a soul warping sound pulse", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "b",
+          "colour": "tc.desaturated_green",
+          "name": "Giant-Bat",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Troll": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]],   
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Dinner", "grabs at you as its next meal", "Damage", 3]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "T",
+          "colour": "tc.desaturated_green",
+          "name": "Troll",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Salamander": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]],  
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Toxic Bite", "lunges at you with its diseased mouth", "Effect", "poisoned"]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "S",
+          "colour": "tc.desaturated_green",
+          "name": "Salamander",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Monkey": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Fecal Surprise", "throws its waste at your", "Effect", "poisoned"]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "m",
+          "colour": "tc.desaturated_green",
+          "name": "Monkey",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Cimim": {
+        "fighter": {
+          "hp": [[5, 1],[10, 2],[15,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[6, 1],[7, 2],[8,3]],
+          "xp": [[50, 1],[55, 2],[60,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Special", "Special Attack1", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "C",
+          "colour": "tc.desaturated_green",
+          "name": "Cimim",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Slime": {
+        "fighter": {
+          "hp": [[16, 1],[18, 2],[21,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[40, 1],[45, 2],[50,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Dissove", "squirts accidic fluid at you", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "S",
+          "colour": "tc.desaturated_green",
+          "name": "Slime",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Skeleton": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Bone Throw", "throws at a bone at your head", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "s",
+          "colour": "tc.desaturated_green",
+          "name": "Skeleton",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Giant": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]],   
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Ground Slam", "slams its massive foot into the ground", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "G",
+          "colour": "tc.desaturated_green",
+          "name": "Giant",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Lich": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]],   
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Drain Essence", "drains your life force", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "L",
+          "colour": "tc.desaturated_green",
+          "name": "Lich",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Dragon": {
+        "fighter": {
+          "hp": [[20, 1],[23, 2],[26,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[50, 1],[55, 2],[60,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Swipe", "swipe at your chest with its sharp claws", "Damage", 4], ["Fire Breath", "blasts you with thieir firey breath", "Effect", "burning"]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "D",
+          "colour": "tc.desaturated_green",
+          "name": "Dragon",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Zombie": {
+        "fighter": {
+          "hp": [[12, 1],[15, 2],[18,3]],
+          "toughness": [[0, 1],[1, 2],[2,3]],
+          "strength": [[3, 1],[4, 2],[5,3]],
+          "xp": [[30, 1],[35, 2],[40,3]],
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Ragged Chop", "wildly swings rotting apendages with abandon", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "z",
+          "colour": "tc.desaturated_green",
+          "name": "Zombie",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Nymph": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]], 
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Ill Magic", "blasts you with cursed magic", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "N",
+          "colour": "tc.desaturated_green",
+          "name": "Nymph",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Beholder": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]], 
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Special", "emits a pyscic blast", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "B",
+          "colour": "tc.desaturated_green",
+          "name": "Beholder",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Mind-Flayer": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]], 
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Crawl", "burrows into your mind, tainting it", "Damage", 4]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "F",
+          "colour": "tc.desaturated_green",
+          "name": "Mind-Flayer",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      },
+      "Vampire": {
+        "fighter": {
+          "hp": [[18, 1],[21, 2],[24,3]],
+          "toughness": [[1, 1],[2, 2],[3,3]],
+          "strength": [[4, 1],[5, 2],[6,3]],
+          "xp": [[45, 1],[50, 2],[55,3]], 
+          "head_hp" : 100,
+          "chest_hp" : 100,
+          "right_arm_hp" : 100,
+          "left_arm_hp" : 100,
+          "right_leg_hp" : 100,
+          "left_leg_hp" : 100,
+          "special_attacks": [["Vampiric Touch", "siphons some of your life force", "Effect", "drain"]]
+        },
+        "ai": "BasicMonster",
+        "Entity": {
+          "x": "",
+          "y": "",
+          "char": "V",
+          "colour": "tc.desaturated_green",
+          "name": "Vampire",
+          "blocks": "True",
+          "render_order": "ACTOR"
+        }
+      }
+    }  
+  },
+  "monster_chances": {
+    "Giant-Ant": [[5, 1],[6, 2],[5, 3],[4, 3]],
+    "Snake": [[5, 1],[6, 2],[5, 3],[4, 3]],
+    "Rat": [[5, 1],[6, 2],[5, 3],[4, 3]],
+    "Orc": [[5, 1],[6, 2],[5, 3],[4, 3]],
+    "Kobold": [[7, 1],[6, 2],[5, 3],[4, 3]],
+    "Spider": [[7, 1],[6, 2],[5, 3],[4, 3]],
+    "Lizard": [[7, 1],[6, 2],[5, 3],[4, 3]],
+    "Bear": [[3, 1],[4, 2],[5, 3],[6, 4]],
+    "Goblin": [[7, 1],[6, 2],[5, 3],[4, 3]],
+    "Giant-Bat": [[7, 1],[6, 2],[5, 3],[4, 3]],
+    "Troll": [[3, 1],[4, 2],[5, 3],[6, 4]],
+    "Salamander": [[2, 1],[3, 2],[4, 3],[5, 4]],
+    "Monkey": [[7, 1],[6, 2],[5, 3],[4, 3]],
+    "Cimim": [[0, 1],[0, 2],[0, 3],[0, 4]],
+    "Slime": [[2, 1],[3, 2],[4, 3],[5, 4]],
+    "Skeleton": [[6, 1],[7, 2],[8, 3]],
+    "Giant": [[2, 1],[3, 2],[4, 3],[5, 4]],
+    "Lich": [[2, 1],[3, 2],[4, 3],[5, 4]],
+    "Dragon": [[2, 1],[3, 2],[4, 3],[5, 4]],
+    "Zombie": [[6, 1],[7, 2],[8, 3]],
+    "Nymph": [[3, 1],[3, 2],[4, 3],[5, 4]],
+    "Mind-Flayer": [[3, 1],[3, 2],[4, 3],[5, 4]],
+    "Vampire": [[3, 1],[3, 2],[4, 3],[5, 4]]
+  },
+  "items": {
+   "equipment_item_list": {
+    "Dirk": {
+     "equipment_slot": "MAIN_HAND",
+     "strength_bonus": 2,
+     "char": "W",
+     "Name": "Dirk"
+    },
+    "Sword": {
+     "equipment_slot": "MAIN_HAND",
+     "strength_bonus": 3,
+     "char": "W",
+     "Name": "Sword"
+    },
+    "Zweihander": {
+     "equipment_slot": "BOTH_HAND",
+     "strength_bonus": 4,
+     "char": "W",
+     "Name": "Zweihander"
+    },
+    "Polearm": {
+     "equipment_slot": "BOTH_HAND",
+     "strength_bonus": 4,
+     "char": "W",
+     "Name": "Polearm"
+    },
+    "Cludgel": {
+     "equipment_slot": "MAIN_HAND",
+     "strength_bonus": 2,
+     "char": "W",
+     "Name": "Cludgel"
+    },
+    "Mace": {
+     "equipment_slot": "MAIN_HAND",
+     "strength_bonus": 3,
+     "char": "W",
+     "Name": "Mace"
+    },
+    "Morning-Star": {
+     "equipment_slot": "MAIN_HAND",
+     "strength_bonus": 3,
+     "char": "W",
+     "Name": "Morning-Star"
+    },
+    "Dagger": {
+     "equipment_slot": "MAIN_HAND",
+     "strength_bonus": 2,
+     "char": "W",
+     "Name": "Dagger"
+    },
+    "Halberd": {
+     "equipment_slot": "BOTH_HAND",
+     "strength_bonus": 4,
+     "char": "W",
+     "Name": "Halberd"
+    },
+    "Bastard-Sword": {
+     "equipment_slot": "BOTH_HAND",
+     "strength_bonus": 4,
+     "char": "W",
+     "Name": "Bastard-Sword"
+    },
+    "Kite-Shield": {
+     "equipment_slot": "OFF_HAND",
+     "defense_bonus": 2,
+     "char": "E",
+     "Name": "Kite-Shield"
+    },
+    "Full-Helm": {
+     "equipment_slot": "HEAD_ARMOUR",
+     "defense_bonus": 1,
+     "char": "E",
+     "Name": "Full-Helm"
+    },
+    "Chain-Shirt": {
+     "equipment_slot": "CHEST_ARMOUR",
+     "defense_bonus": 2,
+     "char": "E",
+     "Name": "Chain-Shirt"
+    },
+    "Green-Two-Finger": {
+     "equipment_slot": "BOTH_HAND",
+     "strength_bonus": 0,
+     "char": "W",
+     "Name": "Two-Finger"
+    }
+   },
+   "equipment_chances": {
+    "Dirk": [[9, 1]],
+    "Sword": [[9, 1]],
+    "Zweihander": [[9, 1]],
+    "Polearm": [[9, 1]],
+    "Cludgel": [[9, 1]],
+    "Mace": [[9, 1]],
+    "Morning-Star": [[9, 1]],
+    "Dagger": [[9, 1]],
+    "Halberd": [[9, 1]],
+    "Bastard-Sword": [[5, 1]],
+    "Kite-Shield" : [[5, 1]],
+    "Full-Helm" : [[5, 1]],
+    "Chain-Shirt" : [[4, 1]],
+    "Green-Two-Finger" : [[1, 1]]
+  },
+    "weapon_adjectives":{
+    "positive_adjectives": [
+      "Sharp",
+      "Acid-Edged",
+      "Ancient",
+      "Ascendant"
+    ],
+    "negative_adjectives": [
+      "Rusty",
+      "Old",
+      "Damaged",
+      "Broken",
+      "Bent",
+      "Buckled",
+      "Blunt",
+      "Weathered",
+      "Forgotten"
+    ]
+    },
+    "equipment_adjectives":{
+    "positive_adjectives": [
+      "Immaculate",
+      "Refined",
+      "Exquisite",
+      "Perfect"
+    ],
+    "negative_adjectives": [
+      "Rusty",
+      "Old",
+      "Damaged",
+      "Broken",
+      "Bent",
+      "Buckled",
+      "Blunt",
+      "Weathered",
+      "Forgotten"
+    ]
+    },
+   "special_attacks": {
+     "Sword":[["Sunder Armour", "You peirce your enemies defense", "Damage", 4], ["Precision Strike", "You flawlessly aim your strike for maximum damage", "Damage", 4]],
+     "Dirk":[["Quick Strikes", "You slash multiple times", "Damage", 4], ["Apply Poison", "You strike with your poisoned blade", "Effect", "poisoned"]],
+     "Zweihander":[["Spinning Blade", "You spin in a circle, landing multiple strikes", "Damage", 4], ["Overhead Strike", "You bring your weapon downward with all your strength", "Damage", 4]],
+     "Polearm":[["Power Thrust", "You aim a powerful thrust at your opponent", "Damage", 4], ["Relentless Strikes", "You unleash a barrage of strikes ", "Damage", 4]],
+     "Barehanded":[["Strong Strike", "You put all your power into your fist", "Damage", 4], ["Quick Hands", "One, two, three punches, your hands are a blur", "Damage", 4]],
+     "Club":[["Bash", "You swing your club with all your might", "Damage", 4],["Poison Smash", "Your poison coated club strikes your opponent", "Effect", "poisoned"]],
+     "Cludgel": [["Special Attack", "Special", "Damage", 1]],
+     "Mace": [["Special Attack", "Special", "Damage", 1]],
+     "Morning-Star": [["UnHoly Light", "You steal some of your targets life force", "Effect", "drain"]],
+     "Dagger": [["Special Attack", "Special", "Damage", 1]],
+     "Halberd":[["Special Attack", "Special", "Damage", 1]],
+     "Bastard Sword": [["Flaming Blade", "You strike with your flaming blade", "Effect", "burning"]],
+     "Green-Two-Finger": [["Special Beam Cannon", "You charge and realease your ki for massive damage", "Damage", 10]]
+    }
+  },
+  "enemies": {
+    "positive_adjectives": [
+      "Big",
+      "Scary",
+      "Huge",
+      "Durable",
+      "Aggressive",
+      "Stronger",
+      "Renowned",
+      "Experienced",
+      "Violent",
+      "Quick",
+      "Defensive",
+      "Tricky",
+      "Honoured",
+      "Resilient",
+      "Unrelenting",
+      "Rapid",
+      "Enduring",
+      "Silent",
+      "Enraged",
+      "Deadly"
+    ],
+    "negative_adjectives": [
+      "Small",
+      "Feeble",
+      "Grotesque",
+      "Disfigured",
+      "Weary",
+      "Sickly",
+      "Festering"
+    ]
+  }
+}
