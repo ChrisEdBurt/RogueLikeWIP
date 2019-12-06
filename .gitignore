@@ -13,10 +13,10 @@ WIP_JSON.json
 menu_background.png
 
 # Build results
-/build/*
-/dist/*
-.vscode/*
-.vs/*
+/build/
+/dist/
+.vscode/
+.vs/
 
 # Python Tools for Visual Studio (PTVS)
 __pycache__/*

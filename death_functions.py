@@ -11,7 +11,8 @@ def kill_player(player):
     return Message('You died!', tc.red), GameStates.PLAYER_DEAD
 
 def kill_monster(monster):
-    death_message = Message('{0} is dead!'.format(monster.name.capitalize()), tc.orange)
+    # death_message = Message('{0} is dead!'.format(monster.name.capitalize()), tc.orange)
+    death_message = Message('{0} is dead!'.format(monster.name.capitalize()), tc.white)
 
     monster.char = '%'
     # monster.color = tc.dark_red

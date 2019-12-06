@@ -52,10 +52,11 @@ def magic(*args, **kwargs):
                 closest_distance = distance
 
     if target:
-        results.append({'consumed': True, 'target': target, 'message': Message('Magic strikes the {0} with a loud zap! The damage is {1}'.format(target.name, damage))})
+        results.append({'consumed': True, 'target': target, 'message': Message('Magic strikes the {0} with a loud zap for {1} damage!'.format(target.name, damage))})
         results.extend(target.fighter.take_damage(damage))
     else:
-        results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', tc.red)})
+        # results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', tc.red)})
+        results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', tc.white)})
 
     return results
 
@@ -80,10 +81,11 @@ def cast_lightning(*args, **kwargs):
                 closest_distance = distance
 
     if target:
-        results.append({'consumed': True, 'target': target, 'message': Message('A lighting bolt strikes the {0} with a loud thunder! The damage is {1}'.format(target.name, damage))})
+        results.append({'consumed': True, 'target': target, 'message': Message('A lighting bolt strikes the {0} with a loud thunder for {1} damage!'.format(target.name, damage))})
         results.extend(target.fighter.take_damage(damage))
     else:
-        results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', tc.red)})
+        # results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', tc.red)})
+        results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', tc.white)})
 
     return results
 
@@ -101,11 +103,13 @@ def cast_fireball(*args, **kwargs):
         results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', tc.yellow)})
         return results
 
-    results.append({'consumed': True, 'message': Message('The fireball explodes, burning everything within {0} tiles!'.format(radius), tc.orange)})
+    # results.append({'consumed': True, 'message': Message('The fireball explodes, burning everything within {0} tiles!'.format(radius), tc.orange)})
+    results.append({'consumed': True, 'message': Message('The fireball explodes, burning everything within {0} tiles!'.format(radius), tc.white)})
 
     for entity in entities:
         if entity.distance(target_x, target_y) <= radius and entity.fighter:
-            results.append({'message': Message('The {0} gets burned for {1} hit points.'.format(entity.name, damage), tc.orange)})
+            # results.append({'message': Message('The {0} gets burned for {1} damage.'.format(entity.name, damage), tc.orange)})
+            results.append({'message': Message('The {0} gets burned for {1} damage.'.format(entity.name, damage), tc.white)})
             results.extend(entity.fighter.take_damage(damage))
 
     return results
@@ -129,7 +133,7 @@ def cast_confuse(*args, **kwargs):
             confused_ai.owner = entity
             entity.ai = confused_ai
 
-            results.append({'consumed': True, 'message': Message('The eyes of the {0} look vacant, as he starts to stumble around!'.format(entity.name), tc.light_green)})
+            results.append({'consumed': True, 'message': Message('The eyes of the {0} look vacant, as they starts to stumble around!'.format(entity.name), tc.light_green)})
 
             break
     else:

@@ -2,7 +2,7 @@ import tcod as tc
 
 from enum import Enum, auto
 from game_states import GameStates
-from menus import character_screen, inventory_menu, level_up_menu, ranged_menu
+from menus import character_screen, inventory_menu, level_up_menu, ranged_menu, tutorial_menu, help_menu
 from components.fighter import Fighter
 from components.mage import Mage
 
@@ -85,10 +85,21 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
     y = 0
 
     for message in message_log.messages:
+    
         panel.default_fg = message.color
-
         tc.console_print_ex(panel, (screen_width - screen_width) + 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
         y += 1
+
+        # if y == 0:
+        #     y = 1
+        #     panel.default_fg = message.color
+        #     tc.console_print_ex(panel, (screen_width - screen_width) + 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
+        #     y += 1
+
+        # else:
+        #     panel.default_fg = message.color
+        #     tc.console_print_ex(panel, (screen_width - screen_width) + 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
+        #     y += 1
     
     render_bar(panel, 1 - 3, 1, bar_width, 'HP', player.fighter.hp, player.fighter.max_hp,tc.light_red, tc.darker_red)
     tc.console_print_ex(panel, 15, 5, tc.BKGND_NONE, tc.LEFT,'Dungeon level: {0}'.format(game_map.dungeon_level))
@@ -199,8 +210,7 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
         body_panel.draw_frame(int(body_panel.width / 2) - 2, 4, 5, 5, "")
         tc.console_print_ex(body_panel, int(body_panel.width / 2), 5, tc.BKGND_NONE, tc.CENTER,'{0}'.format(chest_list[0]+"\n"+chest_list[1]+"\n"+chest_list[2]))
 
-    ##ARMS
-    ##LEFT
+    ##ARMS  ##LEFT
     if int(player.fighter.left_arm_hp) >= 75:
         body_panel.default_fg = tc.green
         body_panel.draw_frame(int(body_panel.width / 2) - 4, 4, 3, 5, "")
@@ -226,8 +236,7 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
         body_panel.draw_frame(int(body_panel.width / 2) - 4, 4, 3, 5, "")
         tc.console_print_ex(body_panel, int(body_panel.width / 2) - 3, 5, tc.BKGND_NONE, tc.CENTER,'{0}'.format(left_arm_list[0]+"\n"+left_arm_list[1]+"\n"+left_arm_list[2])) 
 
-    ##ARMS
-    ##RIGHT
+    ##ARMS  ##RIGHT
     if int(player.fighter.right_arm_hp) >= 75:
         body_panel.default_fg = tc.green
         body_panel.draw_frame(int(body_panel.width / 2) + 2, 4, 3, 5, "")
@@ -253,8 +262,7 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
         body_panel.draw_frame(int(body_panel.width / 2) + 2, 4, 3, 5, "")
         tc.console_print_ex(body_panel, int(body_panel.width / 2) + 3, 5, tc.BKGND_NONE, tc.CENTER,'{0}'.format(right_arm_list[0]+"\n"+right_arm_list[1]+"\n"+right_arm_list[2])) 
 
-    #LEGS
-    #LEFT
+    #LEGS   #LEFT
     if int(player.fighter.left_leg_hp) >= 75:
         body_panel.default_fg = tc.green
         body_panel.draw_frame(int(body_panel.width / 2) - 2, 8, 3, 5, "")
@@ -280,8 +288,7 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
         body_panel.draw_frame(int(body_panel.width / 2) - 2, 8, 3, 5, "")
         tc.console_print_ex(body_panel, int(body_panel.width / 2) + 1, 9, tc.BKGND_NONE, tc.CENTER,'{0}'.format(left_leg_list[0]+"\n"+left_leg_list[1]+"\n"+left_leg_list[2]))
 
-    #LEGS
-    #RIGHT
+    #LEGS   #RIGHT
     if int(player.fighter.right_leg_hp) >= 75:
         body_panel.default_fg = tc.green
         body_panel.draw_frame(int(body_panel.width / 2), 8, 3, 5, "", False)
@@ -348,6 +355,12 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
     elif game_state == GameStates.CHARACTER_SCREEN:
         character_screen(player, 30, 10, screen_width, screen_height)
 
+    elif game_state == GameStates.SHOW_TUTORIAL:
+        tutorial_menu(con, '', 92, screen_width, screen_height)
+
+    elif game_state == GameStates.SHOW_HELP_MENU:
+        help_menu(con, '', 92, screen_width, screen_height)
+
 def clear_all(con, entities):
     for entity in entities:
         clear_entity(con, entity)
@@ -357,9 +370,9 @@ def draw_entity(con, entity, fov_map, game_map):
         con.default_fg = entity.color
         tc.console_put_char(con, entity.x, entity.y, entity.char, tc.BKGND_NONE)
 
-def draw_overworld(con, entity, fov_map, game_map):
-    con.default_fg =  entity.color
-    tc.console_put_char(con, entity.x, entity.y, entity.char, tc.BKGND_NONE)
+# def draw_overworld(con, entity, fov_map, game_map):
+#     con.default_fg =  entity.color
+#     tc.console_put_char(con, entity.x, entity.y, entity.char, tc.BKGND_NONE)
 
 def clear_entity(con, entity):
     tc.console_put_char(con, entity.x, entity.y, ' ', tc.BKGND_NONE)

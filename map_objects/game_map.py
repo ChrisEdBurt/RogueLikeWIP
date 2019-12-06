@@ -249,7 +249,8 @@ class GameMap:
 
     def place_entities(self, room, entities):
         max_monsters_per_room = from_dungeon_level([[2, 1], [3, 3], [4, 5]], self.dungeon_level)
-        max_items_per_room = from_dungeon_level([[1, 1], [2, 4]], self.dungeon_level)
+        # max_items_per_room = from_dungeon_level([[1, 1], [2, 4]], self.dungeon_level)
+        max_items_per_room = from_dungeon_level([[1, 1]], self.dungeon_level)
         max_equipment_per_room = from_dungeon_level([[1, 1], [2, 2]], self.dungeon_level)
         # max_chests_per_level = from_dungeon_level([[1, 1], [2, 2], [3,3]], self.dungeon_level)
 
@@ -261,6 +262,7 @@ class GameMap:
 
         # Get a random number of items
         number_of_items = randint(0, max_items_per_room)
+
         # #ONEROOMBUILD
         # # number_of_items = 0
 
@@ -269,12 +271,6 @@ class GameMap:
 
         # # Get a random number of equipment
         # num_of_chests = randint(0, max_chests_per_level)
-
-        # for i, v in enumerate(['tic', 'tac', 'toe']):
-        #     print(i, v)
-        #     0 tic
-        # for k, v in enemy_chance.items():
-        #     print(k, v)
 
         new_dict = {}
         monster_chance_dict = data["monster_chances"]
@@ -289,22 +285,10 @@ class GameMap:
         item_chances = {
             # 'healing_potion': 30,
             'healing_potion': 100,
-            # 'lightning_scroll': from_dungeon_level([[25, 4]], self.dungeon_level),
-            # 'fireball_scroll': from_dungeon_level([[25, 6]], self.dungeon_level),
-            # 'confusion_scroll': from_dungeon_level([[10, 2]], self.dungeon_level)
+            'fireball_scroll': from_dungeon_level([[15, 6]], self.dungeon_level),
+            'lightning_scroll': from_dungeon_level([[15, 4]], self.dungeon_level),
+            'confusion_scroll': from_dungeon_level([[10, 2]], self.dungeon_level)
         }
-
-        # equipment_chances = {
-        #     'dirk': 30,
-        #     'sword': 30,
-        #     'zweihander': 25,
-        #     'polearm': 15,
-        # }
-
-        # chest_chances = {
-        #     'cimim': 25,
-        #     'chest':75
-        # }
 
         for i in range(number_of_monsters):
             # Choose a random location in the room
@@ -320,6 +304,7 @@ class GameMap:
                         random_monster_index = i
 
                 enemy_list = data["enemy_list"]["enemy_name"]
+
                 
                 ####ONLY ONE MONSTER
                 # choices = list(enemy_list.keys())
@@ -327,19 +312,8 @@ class GameMap:
                 
                 choices = list(enemy_list.keys())
                 enemy_index = choices[random_monster_index]
-
-                # # Get Enemy name length, randomise name and apply it to enemy
-                # enemy_adjectives = data["enemies"]["adjectives"]
-                # max_enemy_name_index = len(enemy_adjectives)
-                # random_adjective_index = randint(0, max_enemy_name_index - 1)
-                # monster_adjective = enemy_adjectives[random_adjective_index]
-
-                enemy_figher = enemy_list[enemy_index]["fighter"]
                 
-                # enemy_hp = enemy_figher["hp"]
-                # enemy_toughness = enemy_figher["toughness"]
-                # enemy_strength = enemy_figher["strength"]
-                # enemy_xp = enemy_figher["xp"]
+                enemy_figher = enemy_list[enemy_index]["fighter"]
 
                 enemy_hp =  from_dungeon_level(enemy_figher["hp"], self.dungeon_level)
                 enemy_toughness = from_dungeon_level(enemy_figher["toughness"], self.dungeon_level)
@@ -357,16 +331,25 @@ class GameMap:
                 enemy_name = enemy_entity["name"]
                 enemy_blocks = enemy_entity["blocks"]
                 
+                if enemy_entity["dying_message"] != "" or enemy_entity["dying_message"] != None:
+                    enemy_dying_message = enemy_entity["dying_message"]
+                
                 random_mutation_chance = randint(0, 100 - 1)
                 buff_or_debuff_chance = randint(0, 20 - 1)
 
                 fighter_component = Fighter(hp = enemy_hp, head_hp = enemy_head_hp, chest_hp = enemy_chest_hp, right_arm_hp = enemy_right_arm_hp, left_arm_hp = enemy_left_arm_hp, right_leg_hp = enemy_right_leg_hp, left_leg_hp = enemy_left_leg_hp, toughness = enemy_toughness, strength = enemy_strength, xp = enemy_xp)            
-                ai_component = BasicMonster()
-                # ai_component = RetreatingMonster()
 
-                if random_mutation_chance >= 1 and random_mutation_chance <= 15:
+                ai_component = enemy_list[enemy_index]["ai"]
+                if ai_component == "BasicMonster":
+                    ai_component = BasicMonster()
+                elif ai_component == "RetreatingMonster":
+                    ai_component = RetreatingMonster()
 
-                    if buff_or_debuff_chance >= 1 and buff_or_debuff_chance <= 10:
+                monster = Entity(x, y, enemy_char, tc.desaturated_green, enemy_name, blocks = enemy_blocks, dying_message = enemy_dying_message, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)                
+            
+                if random_mutation_chance >= 0 and random_mutation_chance <= 15:
+
+                    if buff_or_debuff_chance >= 0 and buff_or_debuff_chance <= 10:
                         # Get Enemy name length, randomise name and apply it to enemy
                         enemy_debuff_adjectives = data["enemies"]["negative_adjectives"]
                         max_enemy_name_index = len(enemy_debuff_adjectives)
@@ -375,19 +358,7 @@ class GameMap:
                         monster_adjective = enemy_debuff_adjectives[random_debuff_adjective_index]
 
                         fighter_component = Fighter(hp = (enemy_hp - randint(0, 4)), head_hp = (enemy_head_hp - randint(0, 15 - 5)), chest_hp = (enemy_chest_hp - randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp - randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp - randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp - randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp - randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength - randint(0, 2 - 1)), xp = (enemy_xp - randint(0, 5)))
-                        monster = Entity(x, y, enemy_char, tc.white, monster_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
-                        
-                        # print("enemy_name: " + monster_adjective + " " + enemy_name + '\n' +  \
-                        # "enemy_hp: " + str(monster.fighter.hp) + '\n' +  \
-                        # "enemy_toughness: " + str(monster.fighter.toughness) + '\n' +  \
-                        # "enemy_strength: " + str(monster.fighter.strength) + '\n' +  \
-                        # "enemy_xp: " + str(monster.fighter.xp) + '\n' +  \
-                        # "enemy_head_hp: " + str(monster.fighter.head_hp) + '\n' +  \
-                        # "enemy_chest_hp: " + str(monster.fighter.chest_hp) + '\n' +  \
-                        # "enemy_right_arm_hp: " + str(monster.fighter.right_arm_hp) + '\n' +  \
-                        # "enemy_left_arm_hp: " + str(monster.fighter.left_arm_hp) + '\n' +  \
-                        # "enemy_right_leg_hp: " + str(monster.fighter.right_leg_hp) + '\n' +  \
-                        # "enemy_left_leg_hp: " + str(monster.fighter.left_leg_hp) + '\n')
+                        monster = Entity(x, y, enemy_char, tc.white, monster_adjective + " " + enemy_name, blocks = enemy_blocks, dying_message = enemy_dying_message, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
                     elif buff_or_debuff_chance >= 11 and buff_or_debuff_chance <= 20:
                         # Get Enemy name length, randomise name and apply it to enemy
@@ -398,22 +369,10 @@ class GameMap:
                         monster_adjective = enemy_buff_adjectives[random_buff_adjective_index]
 
                         fighter_component = Fighter(hp = (enemy_hp + randint(0, 4)), head_hp = (enemy_head_hp + randint(0, 15 - 5)), chest_hp = (enemy_chest_hp + randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp + randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp + randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp + randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp + randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength + randint(0, 2 - 1)), xp = (enemy_xp + randint(0, 10 - 5)))
-                        monster = Entity(x, y, enemy_char, tc.red, monster_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
-
-                        # print("enemy_name: " + monster_adjective + " " + enemy_name + '\n' +  \
-                        # "enemy_hp: " + str(monster.fighter.hp) + '\n' +  \
-                        # "enemy_toughness: " + str(monster.fighter.toughness) + '\n' +  \
-                        # "enemy_strength: " + str(monster.fighter.strength) + '\n' +  \
-                        # "enemy_xp: " + str(monster.fighter.xp) + '\n' +  \
-                        # "enemy_head_hp: " + str(monster.fighter.head_hp) + '\n' +  \
-                        # "enemy_chest_hp: " + str(monster.fighter.chest_hp) + '\n' +  \
-                        # "enemy_right_arm_hp: " + str(monster.fighter.right_arm_hp) + '\n' +  \
-                        # "enemy_left_arm_hp: " + str(monster.fighter.left_arm_hp) + '\n' +  \
-                        # "enemy_right_leg_hp: " + str(monster.fighter.right_leg_hp) + '\n' +  \
-                        # "enemy_left_leg_hp: " + str(monster.fighter.left_leg_hp) + '\n')
+                        monster = Entity(x, y, enemy_char, tc.red, monster_adjective + " " + enemy_name, blocks = enemy_blocks, dying_message = enemy_dying_message, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
                 else:
-                    monster = Entity(x, y, enemy_char, tc.desaturated_green, enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+                    monster = Entity(x, y, enemy_char, tc.desaturated_green, enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, dying_message = enemy_dying_message, fighter = fighter_component, ai = ai_component)
                
                 entities.append(monster)
 
@@ -425,21 +384,21 @@ class GameMap:
                 item_choice = random_choice_from_dict(item_chances)
 
                 if item_choice == 'healing_potion':
-                    item_component = Item(use_function=heal, amount=25)
+                    item_component = Item(use_function=heal, amount=20)
                     item = Entity(x, y, 'H', tc.violet, 'Healing Potion', render_order=RenderOrder.ITEM,item=item_component)
 
-                # elif item_choice == 'fireball_scroll':
-                #     item_component = Item(use_function=cast_fireball, targeting=True, targeting_message=Message(
-                #         'Left-click a target tile for the fireball, or right-click to cancel.', tc.light_cyan), damage=25, radius=3)
-                #     item = Entity(x, y, 'F', tc.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,item=item_component)
+                elif item_choice == 'fireball_scroll':
+                    item_component = Item(use_function=cast_fireball, targeting=True, targeting_message=Message(
+                        'Left-click a target tile for the fireball, or Escape to cancel.', tc.light_cyan), damage=25, radius=3)
+                    item = Entity(x, y, 'F', tc.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,item=item_component)
 
-                # elif item_choice == 'confusion_scroll':
-                #     item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message('Left-click an enemy to confuse it, or right-click to cancel.', tc.light_cyan))
-                #     item = Entity(x, y, 'C', tc.light_pink, 'Confusion Scroll', render_order=RenderOrder.ITEM,item=item_component)
+                elif item_choice == 'confusion_scroll':
+                    item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message('Left-click an enemy to confuse it, or Escape to cancel.', tc.light_cyan))
+                    item = Entity(x, y, 'C', tc.light_pink, 'Confusion Scroll', render_order=RenderOrder.ITEM,item=item_component)
 
-                # else:
-                #     item_component = Item(use_function=cast_lightning, damage=40, maximum_range=5)
-                #     item = Entity(x, y, 'L', tc.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,item=item_component)
+                else:
+                    item_component = Item(use_function=cast_lightning, damage=40, maximum_range=5)
+                    item = Entity(x, y, 'L', tc.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,item=item_component)
 
                 entities.append(item)
 
@@ -459,10 +418,12 @@ class GameMap:
                 equipment_list = data["items"]["equipment_item_list"]
                 
                 ###ONLY SPAWN ONE KIND OF EQUIPMENT
-                # equipment_index = choices[3]
+                # choices = list(equipment_list.keys())
+                # equipment_index = choices[14]
 
                 choices = list(equipment_list.keys())
                 equipment_index = choices[random_equipment_index]
+                
                 equipment_slot = equipment_list[equipment_index]["equipment_slot"]
 
                 if equipment_slot == "MAIN_HAND":
@@ -488,11 +449,12 @@ class GameMap:
                 equipment_char = equipment_list[equipment_index]["char"]
                 equipment_name = equipment_list[equipment_index]["Name"]
 
-                random_mutation_chance = randint(0, 100 - 1)
-                buff_or_debuff_chance = randint(0, 20 - 1)
+                random_mutation_chance = randint(0, 100)
+                buff_or_debuff_chance = randint(0, 20)
 
-                if random_mutation_chance >= 1 and random_mutation_chance <= 15:
-                    if buff_or_debuff_chance >= 1 and buff_or_debuff_chance <= 12:
+                if random_mutation_chance >= 0 and random_mutation_chance <= 15:
+                    
+                    if buff_or_debuff_chance >= 0 and buff_or_debuff_chance <= 12:
 
                         buff_equipment_max_quality_index_length = len(data["items"]["equipment_adjectives"]["positive_adjectives"])
                         buff_weapon_max_quality_index_length = len(data["items"]["weapon_adjectives"]["positive_adjectives"])
@@ -514,6 +476,11 @@ class GameMap:
                         elif equipment_list[equipment_index]["equipment_slot"] == "MAIN_HAND" or equipment_list[equipment_index]["equipment_slot"] == "BOTH_HAND":
                             equippable_component = Equippable(equipment_slot, strength_bonus = equipment_strength_bonus + randint(1, 2))
                             item = Entity(x, y, equipment_char , tc.yellow, random_weapon_adjective + " " + equipment_name, equippable=equippable_component)
+
+                        elif equipment_list[equipment_index]["equipment_slot"] == "BOTH_HAND" and equipment_name == "Staff of Fire":
+                            equippable_component = Equippable(equipment_slot, strength_bonus = equipment_strength_bonus)
+                            staff_item = Item(use_function = magic, targeting = True, targeting_message = Message('Left-click an enemy for spell`s target, Escape to cancel.', tc.light_cyan), damage = 10, maximum_range = 2, ranged = True, uses = 5, maxUses = 5)
+                            item = Entity(x, y, equipment_char , tc.grey, equipment_name, equippable=equippable_component, item = staff_item)
 
                     elif buff_or_debuff_chance >= 13 and buff_or_debuff_chance <= 20:
 
@@ -538,7 +505,13 @@ class GameMap:
                             equippable_component = Equippable(equipment_slot, strength_bonus = equipment_strength_bonus - randint(1, 2))
                             item = Entity(x, y, equipment_char , tc.grey, random_weapon_adjective + " " + equipment_name, equippable=equippable_component)
 
+                        elif equipment_list[equipment_index]["equipment_slot"] == "BOTH_HAND" and equipment_name == "Staff of Fire":
+                            equippable_component = Equippable(equipment_slot, strength_bonus = equipment_strength_bonus)
+                            staff_item = Item(use_function = magic, targeting = True, targeting_message = Message('Left-click an enemy for spell`s target, Escape to cancel.', tc.light_cyan), damage = 10, maximum_range = 2, ranged = True, uses = 5, maxUses = 5)
+                            item = Entity(x, y, equipment_char , tc.grey, equipment_name, equippable=equippable_component, item = staff_item)
+
                 else:
+                    
                     if equipment_list[equipment_index]["equipment_slot"] == "HEAD_ARMOUR" or equipment_list[equipment_index]["equipment_slot"] == "OFF_HAND" or equipment_list[equipment_index]["equipment_slot"] == "CHEST_ARMOUR":
                         equippable_component = Equippable(equipment_slot, defense_bonus = equipment_defence_bonus)
                         item = Entity(x, y, equipment_char , tc.sky, equipment_name, equippable=equippable_component)
@@ -547,36 +520,18 @@ class GameMap:
                         equippable_component = Equippable(equipment_slot, strength_bonus = equipment_strength_bonus)
                         item = Entity(x, y, equipment_char , tc.sky, equipment_name, equippable=equippable_component)
 
+                    elif equipment_list[equipment_index]["equipment_slot"] == "BOTH_HAND" and equipment_name == "Staff of Fire":
+                        equippable_component = Equippable(equipment_slot, strength_bonus = equipment_strength_bonus)
+                        staff_item = Item(use_function = magic, targeting = True, targeting_message = Message('Left-click an enemy for spell`s target, Escape to cancel.', tc.light_cyan), damage = 10, maximum_range = 2, ranged = True, uses = 5, maxUses = 5)
+                        item = Entity(x, y, equipment_char , tc.sky, equipment_name, equippable=equippable_component, item = staff_item)
+
+                #STAFF TESTING
+                # equippable_component = Equippable(equipment_slot, strength_bonus = 0)
+                # staff_item = Item(use_function = magic, targeting = True, targeting_message = Message('Left-click an enemy for spell`s target, Escape to cancel.', tc.light_cyan), damage = 10, maximum_range = 2, ranged = True, uses = 5, maxUses = 5)
+                # item = Entity(x, y, equipment_char , tc.black, equipment_name, equippable=equippable_component, item = staff_item)
+
                 # print(item.name)
                 entities.append(item)
-
-        # for i in range(num_of_chests):
-        #     # Choose a random location in the room
-        #     x = randint(room.x1 + 1, room.x2 - 1)
-        #     y = randint(room.y1 + 1, room.y2 - 1)
-
-        #     if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-        #         chest_choice = random_choice_from_dict(chest_chances)
-
-                # if chest_choice == 'cimim':
-                
-                #     fighter_component = Fighter(hp=1, head_hp = 100, chest_hp = 100, right_arm_hp = 100, left_arm_hp = 100, right_leg_hp = 100, left_leg_hp = 100, toughness=3, strength=6, xp=25)
-                #     ai_component = BasicMonster()
-                #     inventory_component = Inventory(2)
-
-                #     cimim = Entity(x, y, 'C', tc.desaturated_green, 'Cimim', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component, inventory=inventory_component)
-
-                #     equippable_component = Equippable(EquipmentSlots.HEAD_ARMOUR, defense_bonus=1)
-                #     helm = Entity(0, 0, 'E', tc.white, 'Helm', equippable=equippable_component)
-
-                #     cimim.inventory.add_item(helm)
-
-                # elif chest_choice == 'chest':
-
-                #     inventory_component = Inventory(1)
-                #     chest = Entity(x, y, 'C', tc.desaturated_green, 'Chest', inventory=inventory_component)
-
-                    # entities.append(cimim)
 
     def is_blocked(self, x, y):
         if self.tiles[x][y].blocked:
@@ -592,15 +547,15 @@ class GameMap:
         self.tiles = self.initialize_tiles()
         self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'], constants['map_width'], constants['map_height'], player, entities)
 
-        player.fighter.heal(player.fighter.max_hp // 15)
-        player.fighter.heal(player.fighter.head_hp // 15)
-        player.fighter.heal(player.fighter.chest_hp // 15)
-        player.fighter.heal(player.fighter.right_arm_hp // 15)
-        player.fighter.heal(player.fighter.left_arm_hp // 15)
-        player.fighter.heal(player.fighter.right_leg_hp // 15)
-        player.fighter.heal(player.fighter.left_leg_hp // 15)
+        player.fighter.heal(player.fighter.max_hp // 16)
+        player.fighter.heal(player.fighter.head_hp // 16)
+        player.fighter.heal(player.fighter.chest_hp // 16)
+        player.fighter.heal(player.fighter.right_arm_hp // 16)
+        player.fighter.heal(player.fighter.left_arm_hp // 16)
+        player.fighter.heal(player.fighter.right_leg_hp // 16)
+        player.fighter.heal(player.fighter.left_leg_hp // 16)
 
-        message_log.add_message(Message('You take a moment to rest, and recover your strength.', tc.light_violet))
+        message_log.add_message(Message('You take a moment to rest, recovering some of your strength.', tc.light_violet))
 
         return entities
 

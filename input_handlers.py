@@ -18,6 +18,9 @@ def handle_keys(key, game_state):
     elif game_state == GameStates.SHOW_TUTORIAL:
         return handle_tutorial_menu(key)
 
+    elif game_state == GameStates.SHOW_HELP_MENU:
+        return handle_help_menu(key)
+
     elif game_state == GameStates.CYCLE_TARGET:
         return handle_cycle_target(key)
 
@@ -32,6 +35,7 @@ def handle_keys(key, game_state):
         
     return {}
 
+# tcod.event.KeyDown
 def handle_player_turn_keys(key):
     
     key_char = chr(key.c)
@@ -109,7 +113,7 @@ def handle_player_turn_keys(key):
     
     # SHOW HELP
     elif key_char == '/':
-        return {'show_help' : True}
+        return {'show_help_menu' : True}
 
     # Alt: toggle full screen
     if key.vk == tc.KEY_1:
@@ -225,20 +229,14 @@ def handle_main_menu(key):
     return {}
 
 def handle_tutorial_menu(key):
-    # if key.vk == tc.KEY_ESCAPE or key.vk == tc.KEY_ENTER:
     if key.vk == tc.KEY_ESCAPE:
-    # if key.vk == tc.KEY_ESCAPE or key.vk == tc.KEY_ESCAPE:
         return {'close_tutorial': True}
 
     return {}
 
 def handle_help_menu(key):
-    key_char = chr(key.c)
-
-    if key_char == '/':
-        return {'close_tutorial': True}
-    elif key.vk == tc.KEY_ESCAPE:
-        return {'close_tutorial': True}
+    if key.vk == tc.KEY_ESCAPE:
+        return {'close_help_menu': True}
 
     return {}
 

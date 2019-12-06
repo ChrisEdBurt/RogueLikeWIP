@@ -12,3 +12,4 @@ class GameStates(Enum):
     RANGED = 9
     CYCLE_TARGET = 10
     SHOW_TUTORIAL = 11
+    SHOW_HELP_MENU = 12

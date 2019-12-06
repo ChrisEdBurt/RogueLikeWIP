@@ -124,14 +124,24 @@ def inventory_menu(con, player, inventory_width, screen_width, screen_height):
                     player.inventory.items.insert(2, items)
                     player.inventory.items.pop(index + 1)
 
-            if items.equippable.slot.name == 'BOTH_HAND' and items == player.equipment.both_hand and len(player.inventory.items) > 1:
-                if index != 2:
-                    player.inventory.items.insert(2, items)
-                    player.inventory.items.pop(index + 1)
+            # if items.equippable.slot.name == 'BOTH_HAND' and items == player.equipment.both_hand and len(player.inventory.items) > 1:
+            #     if index != 2:
+            #         player.inventory.items.insert(2, items)
+            #         player.inventory.items.pop(index + 1)
+
+            # if items.equippable.slot.name == 'OFF_HAND' and items == player.equipment.off_hand and len(player.inventory.items) > 1:
+            #     if index != 3:
+            #         player.inventory.items.insert(3, items)
+            #         player.inventory.items.pop(index + 1)
 
             if items.equippable.slot.name == 'OFF_HAND' and items == player.equipment.off_hand and len(player.inventory.items) > 1:
                 if index != 3:
                     player.inventory.items.insert(3, items)
+                    player.inventory.items.pop(index + 1)
+            
+            if items.equippable.slot.name == 'BOTH_HAND' and items == player.equipment.both_hand and len(player.inventory.items) > 1:
+                if index != 4:
+                    player.inventory.items.insert(4, items)
                     player.inventory.items.pop(index + 1)
 
     for item in player.inventory.items:
@@ -305,3 +315,67 @@ def character_screen(player, character_screen_width, character_screen_height, sc
 
 def message_box(con, header, width, screen_width, screen_height):
     menu(con, header, [], width, screen_width, screen_height)
+
+def tutorial_menu(con, header, width, screen_width, screen_height):
+    
+    center_x = int(screen_width / 2)
+    center_y = int(screen_height / 2)
+
+    tutorial_panel = tc.console.Console(110, 49)
+    tutorial_panel.default_fg = tc.white
+    tutorial_panel.default_fbg = tc.black
+
+    tutorial_panel.draw_frame(center_x - int(tutorial_panel.width / 2), center_y - 25, tutorial_panel.width - 10, tutorial_panel.height - 10, "Tutorial Menu", False, fg=tc.white, bg=tc.black)
+
+    tutorial_panel.print(center_x - 6, center_y - 23, '[Key Bindings]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 21, '[Movement]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 19, 'Number Pad 1-9 or arrow keys for movement'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 17, 'I to open inventory screen'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 15, '[Inventory screen]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 13, 'Push the letter inside the () to use/equip the corresponding item.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 11, 'D to open drop item screen'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 9,'[Inventory Drop screen]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 7, 'Push the letter inside the () to drop the corresponding item.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 5, 'T to wait a turn.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 3, 'E to pick up items.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y - 1, 'ENTER/RETURN to use flights of stairs.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y + 1, 'ESCAPE to exit various menus/return to the Main Menu/cancel certan item usage.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y + 3, 'R to activate targeting mode.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y + 5, '[Targeting mode]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y + 7, 'Press RIGHT or LEFT key to switch targets.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y + 9, 'Press / or ? to display HELP SCREEN.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y + 11, 'Pick up new equipment(E), weapons(W) and health(H) to improve your chances of survival.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    tutorial_panel.print(center_x - 6, center_y + 13, 'PRESS ESCAPE TO EXIT TUTORIAL SCREEN.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+
+    tc.console_blit(tutorial_panel, 0, 0, tutorial_panel.width, tutorial_panel.height, 0, 4, 0, 1.0, 1.0)
+
+def help_menu(con, header, width, screen_width, screen_height):
+    center_x = int(screen_width / 2)
+    center_y = int(screen_height / 2)
+
+    help_menu_panel = tc.console.Console(110, 45)
+
+    help_menu_panel.default_fg = tc.white
+    help_menu_panel.default_fbg = tc.black
+
+    help_menu_panel.draw_frame(center_x - int(help_menu_panel.width / 2), center_y - 25, help_menu_panel.width - 10, help_menu_panel.height - 10, "Help Menu", False, fg=tc.white, bg=tc.black)
+
+    help_menu_panel.print(center_x - 6, center_y - 23, '[Key Bindings]'.format(tc.red), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 21, '[Movement]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 19, 'Number Pad 1-9 or arrow keys for movement'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 17, 'I to open inventory screen'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 15, '[Inventory screen]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 13, 'Push the letter inside the () to use/equip the corresponding item.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 11, 'D to open drop item screen'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 9,'[Inventory Drop screen]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 7, 'Push the letter inside the () to drop the corresponding item.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 5, 'T to wait a turn.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 3, 'E to pick up items.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y - 1, 'ENTER/RETURN to use flights of stairs.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y + 1, 'ESCAPE to exit various menus/return to the Main Menu/cancel certan item usage.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y + 3, 'R to activate targeting mode.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y + 5, '[Targeting mode]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y + 7, 'Press RIGHT or LEFT key to switch targets.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+    help_menu_panel.print(center_x - 6, center_y + 9, 'PRESS ESCAPE TO EXIT HELP SCREEN.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
+
+    tc.console_blit(help_menu_panel, 0, 0, help_menu_panel.width, help_menu_panel.height, 0, 4, 0, 1.0, 1.0)

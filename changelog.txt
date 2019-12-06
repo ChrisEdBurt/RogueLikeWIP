@@ -1,5 +1,29 @@
 CHANGELOG
-------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+1.0.6.2 -
+	Removed fire/poison from AI component.
+	Changed various log colours to white.
+	Blocking entities back in AI for RetreatingMonster logic.
+	Take damge split into HP damage and Limb damage.
+	Fixed enemies with different names than in the data.json file from crashing game when using specials.
+	Added dying message to enemy data.
+	Tutorial menu/help menu logic added.
+	Targeting message changed to ESCAPE instead of RCLICK.
+	Max items per room reduced.
+	Scrolls added back into game.
+	Reduced limb recovery between levels.
+	Changed inventory render order.
+	Updated Help screen.
+	Removed Overworld related methods.
+
+1.0.6.1 -
+	Special attack support for unintended random number.
+	Removed most comments.
+	Blue for weak enemies, Red for strong.
+	Help bindings
+	Removed helm and shield starter equipment.
+	Increased chance of random enemy.
+	Updated readme.
 
 1.0.6 -
 	Monster special changes.
@@ -118,12 +142,3 @@ CHANGELOG
 	 
 1.0.0 - 
 	Roguelike tutorial finished with all the bells and whistles that it offers.
-
-
-
- 
-
-
-     
-
-     

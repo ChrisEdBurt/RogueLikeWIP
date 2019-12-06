@@ -15,40 +15,8 @@ class BasicMonster:
             if monster.distance_to(target) >= 2:
                 monster.move_astar(target, entities, game_map)
 
-                # if monster.fighter.turns_since_special <= 4:
                 if monster.fighter.turns_since_special <= 5:
                     monster.fighter.turns_since_special += 1
-                # print(monster.name + ": " + str(monster.fighter.turns_since_special))
-
-                # if monster.fighter.is_poisoned == True:
-
-                #     if monster.fighter.poison_turns_remaining == 1:
-                #         poison_damage = int(monster.fighter.hp / 100)
-                #         monster.fighter.hp -= poison_damage
-                #         print(monster.name + " " + str(poison_damage))
-                #         monster.fighter.poison_turns_remaining -= 1
-                #         monster.fighter.is_poisoned = False
-
-                #     else:
-                #         poison_damage = int(monster.fighter.hp / 100)
-                #         monster.fighter.hp -= poison_damage
-                #         print(monster.name + " " + str(poison_damage))
-                #         monster.fighter.poison_turns_remaining -= 1
-
-                # elif monster.fighter.is_burning == True:
-
-                #     if monster.fighter.burning_turns_remaining == 1:
-                #         burning_damage = int(monster.fighter.hp / 100)
-                #         monster.fighter.hp -= burning_damage
-                #         print(monster.name + " " + str(burning_damage))
-                #         monster.fighter.burning_turns_remaining -= 1
-                #         monster.fighter.is_burning = False
-
-                #     else:
-                #         burning_damage = int(monster.fighter.hp / 100)
-                #         monster.fighter.hp -= burning_damage
-                #         print(monster.name + " " + str(burning_damage))
-                #         monster.fighter.burning_turns_remaining -= 1
 
             elif target.fighter.hp > 0:
                 attack_results = monster.fighter.attack(target)
@@ -57,7 +25,6 @@ class BasicMonster:
         else:
             if monster.fighter.turns_since_special <= 5:
                 monster.fighter.turns_since_special += 1
-            # print(monster.name + ": " + str(monster.fighter.turns_since_special))
 
         return results
 
@@ -79,7 +46,9 @@ class ConfusedMonster:
             self.number_of_turns -= 1
         else:
             self.owner.ai = self.previous_ai
-            results.append({'message': Message('The {0} is no longer confused!'.format(self.owner.name), tc.red)})
+            # results.append({'message': Message('The {0} is no longer confused!'.format(self.owner.name), tc.red)})
+            results.append({'message': Message('The {0} is no longer confused!'.format(self.owner.name), tc.white)})
+
 
         return results
 
@@ -140,9 +109,7 @@ class RetreatingMonster:
                         if not (game_map.is_blocked(monster.x - 1, monster.y - 1) or get_blocking_entities_at_location(entities, monster.x - 1, monster.y - 1)):
                             valid_dir.append("NW")
 
-                # results.append({'message': Message('{0}'.format(valid_dir), tc.red)})
                 rand_choice = randint(0,len(valid_dir) - 1)
-                # results.append({'message': Message('{0}'.format(rand_choice), tc.red)}) 
 
                 if valid_dir[rand_choice] == "N":
                     monster.move(0, -1)
@@ -175,3 +142,10 @@ class RetreatingMonster:
 
         else:
             return results
+
+def get_blocking_entities_at_location(entities, destination_x, destination_y):
+    for entity in entities:
+        if entity.blocks and entity.x == destination_x and entity.y == destination_y:
+            return entity
+
+    return None

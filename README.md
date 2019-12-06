@@ -2,31 +2,31 @@ This readme file contains information about the game, the upcoming roadmap, also
  
  ------------------------------------------------------------------------------------------------
 MONSTERS
-	o - Orc
-	k - Kobold
+	b - Giant Bat
+	B - Bear
+	B - Beholder
+	c - Cimin
+	D - Dragon
+	F - Mind-Flayer
+	g - Goblin
 	g - Giant Ant
+	G - Giant
+	k - Kobold
+	l - Lizard
+	L - Lich
+	m - Monkey
+	N - Nymph
+	o - Orc
 	r - Rat
+	S - Salamander
+	S - Slime
+	s - Skeleton
 	s - Snake
 	s - Spider
 	T - Troll
-	k - Kobold
-	l - Lizard
-	B - Bear
-	g - Goblin
-	b - Giant Bat
-	S - Salamander
-	m - Monkey
-	c - Cimin
-	S - Slime
-	s - Skeleton
-	G - Giant
-	L - Lich
-	D - Dragon
+	V - Vampire
 	z - Zombie
-	N - Nymph
-	B - Beholder
-	F - Mind-Flayer
-		
+			
 ------------------------------------------------------------------------------------------------
 WEAPONS
 	Barehanded
@@ -130,6 +130,7 @@ EQUIPMENT
 	Full-Helm
 	Kite-Shield
 	Shield
+	Staff of Fire
 
 ------------------------------------------------------------------------------------------------
 CONTROLS
@@ -156,10 +157,6 @@ CONTROLS
 		SPACE - Spawn enemy.
 		R Mouse - Teleport player.
 	
-------------------------------------------------------------------------------------------------
-STORY
-     Refer to Story-Outline.docx
-	 
 ------------------------------------------------------------------------------------------------	
 ROADMAP
 

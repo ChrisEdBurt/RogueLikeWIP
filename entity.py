@@ -10,7 +10,7 @@ from random_utils import from_dungeon_level, random_choice_from_dict
 from loader_functions.data_loaders import load_json
 
 from components.fighter import Fighter
-from components.ai import BasicMonster
+from components.ai import BasicMonster, RetreatingMonster
 # from components.equippable import Equippable
 
 class Entity:
@@ -18,7 +18,7 @@ class Entity:
     A generic object to represent players, enemies, items, etc.
     """
     def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, mage=None, ai=None,
-                 item=None, inventory=None, stairs=None, level=None, equipment=None, equippable=None, ranged=None, uses = None, area = None):
+                 item=None, inventory=None, stairs=None, level=None, equipment=None, equippable=None, ranged=None, uses = None, area = None, dying_message = None):
         self.x = x
         self.y = y
         self.char = char
@@ -38,6 +38,8 @@ class Entity:
         self.ranged = ranged
         self.uses = uses
         self.area = area
+        self.dying_message = dying_message
+        self.display_dying_message = True
 
         if self.fighter:
             self.fighter.owner = self
@@ -209,8 +211,8 @@ def spawn_enemy(mouse_x, mouse_y, entities, dungeon_level):
         enemy_list = data["enemy_list"]["enemy_name"]
         
         ####ONLY ONE MONSTER
-        #choices = list(enemy_list.keys())
-        #enemy_index = choices[0]
+        # choices = list(enemy_list.keys())
+        # enemy_index = choices[0]
         
         choices = list(enemy_list.keys())
         enemy_index = choices[random_monster_index]
@@ -232,12 +234,18 @@ def spawn_enemy(mouse_x, mouse_y, entities, dungeon_level):
         enemy_char = enemy_entity["char"]
         enemy_name = enemy_entity["name"]
         enemy_blocks = enemy_entity["blocks"]
-        
+        enemy_dying_message = enemy_entity["dying_message"]
+
         random_mutation_chance = randint(1, 100)
         buff_or_debuff_chance = randint(1, 20)
 
         fighter_component = Fighter(hp = enemy_hp, head_hp = enemy_head_hp, chest_hp = enemy_chest_hp, right_arm_hp = enemy_right_arm_hp, left_arm_hp = enemy_left_arm_hp, right_leg_hp = enemy_right_leg_hp, left_leg_hp = enemy_left_leg_hp, toughness = enemy_toughness, strength = enemy_strength, xp = enemy_xp)            
-        ai_component = BasicMonster()
+        
+        ai_component = enemy_list[enemy_index]["ai"]
+        if ai_component == "BasicMonster":
+            ai_component = BasicMonster()
+        elif ai_component == "RetreatingMonster":
+            ai_component = RetreatingMonster()
     
         if random_mutation_chance >= 1 and random_mutation_chance <= 10:
 
@@ -250,7 +258,7 @@ def spawn_enemy(mouse_x, mouse_y, entities, dungeon_level):
                 monster_debuff_adjective = enemy_debuff_adjectives[random_debuff_adjective_index]
 
                 fighter_component = Fighter(hp = (enemy_hp - randint(0, 4)), head_hp = (enemy_head_hp - randint(0, 15 - 5)), chest_hp = (enemy_chest_hp - randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp - randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp - randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp - randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp - randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength - randint(0, 2 - 1)), xp = (enemy_xp - randint(0, 5)))
-                monster = Entity(x, y, enemy_char, tc.white, monster_debuff_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+                monster = Entity(x, y, enemy_char, tc.white, monster_debuff_adjective + " " + enemy_name, blocks = enemy_blocks, dying_message = enemy_dying_message, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
 
             elif buff_or_debuff_chance >= 11 and buff_or_debuff_chance <= 20:
@@ -262,10 +270,10 @@ def spawn_enemy(mouse_x, mouse_y, entities, dungeon_level):
                 monster_buff_adjective = enemy_buff_adjectives[random_buff_adjective_index]
 
                 fighter_component = Fighter(hp = (enemy_hp + randint(0, 4)), head_hp = (enemy_head_hp + randint(0, 15 - 5)), chest_hp = (enemy_chest_hp + randint(0, 15 - 5)), right_arm_hp = (enemy_right_arm_hp + randint(0, 15 - 5)), left_arm_hp = (enemy_left_arm_hp + randint(0, 15 - 5)), right_leg_hp = (enemy_right_leg_hp + randint(0, 15 - 5)), left_leg_hp = enemy_left_leg_hp + randint(0, 15 - 5), toughness = (enemy_toughness + randint(0, 2 - 1)), strength = (enemy_strength + randint(0, 2 - 1)), xp = (enemy_xp + randint(0, 10 - 5)))
-                monster = Entity(x, y, enemy_char, tc.red, monster_buff_adjective + " " + enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+                monster = Entity(x, y, enemy_char, tc.red, monster_buff_adjective + " " + enemy_name, blocks = enemy_blocks, dying_message = enemy_dying_message,  render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
         else:
-            monster = Entity(x, y, enemy_char, tc.desaturated_green, enemy_name, blocks = enemy_blocks, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
+            monster = Entity(x, y, enemy_char, tc.desaturated_green, enemy_name, blocks = enemy_blocks, dying_message = enemy_dying_message, render_order=RenderOrder.ACTOR, fighter = fighter_component, ai = ai_component)
 
         entities.append(monster)
 

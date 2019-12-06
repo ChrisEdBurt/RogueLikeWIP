@@ -14,7 +14,7 @@ from game_states import GameStates
 from input_handlers import handle_keys, handle_mouse, handle_main_menu, handle_tutorial_menu, handle_mouse_teleport, handle_help_menu
 from loader_functions.initialize_new_game import get_constants, get_game_variables
 from loader_functions.data_loaders import load_game, save_game, load_json
-from menus import main_menu, message_box
+from menus import main_menu, message_box, tutorial_menu, help_menu
 from render_functions import clear_all, render_all
 from loader_functions.data_loaders import load_json
 from components.fighter import Fighter
@@ -72,13 +72,13 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
         fullscreen = action.get('fullscreen')
         god_mode = action.get('god_mode')
 
-        show_help = action.get('show_help')
+        show_help_menu = action.get('show_help_menu')
+        close_help_menu = action.get('close_help_menu')
 
         cycle_target = action.get('cycle_target')
         cycle_target_right = action.get('right_target')
         cycle_target_left = action.get('left_target')
 
-        # burning = action.get('burning')
         poisoned = action.get('poisoned')
         burning = action.get('burning')
 
@@ -146,9 +146,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             previous_game_state = game_state
             game_state = GameStates.DROP_INVENTORY
 
-        if show_help:
+        if show_help_menu:
             previous_game_state = game_state
-            game_state = GameStates.SHOW_TUTORIAL
+            game_state = GameStates.SHOW_HELP_MENU
 
         if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(player.inventory.items):
             item = player.inventory.items[inventory_index]
@@ -316,68 +316,11 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             spawn_enemy(mouse_x, mouse_y, entities, game_map.dungeon_level)
             
         if increase_limb_damage:
-            random_damage = randint(0, 12) - 1
-            player.fighter.head_hp -= random_damage
-            if player.fighter.head_hp < 0:
-                player.fighter.head_hp = 0
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.chest_hp -= random_damage
-            if player.fighter.chest_hp < 0:
-                player.fighter.chest_hp = 0
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.right_arm_hp -= random_damage
-            if player.fighter.right_arm_hp < 0:
-                player.fighter.right_arm_hp = 0
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.left_arm_hp -= random_damage
-            if player.fighter.left_arm_hp < 0:
-                player.fighter.left_arm_hp = 0
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.right_leg_hp -= random_damage
-            if player.fighter.right_leg_hp < 0:
-                player.fighter.right_leg_hp = 0
-           
-            random_damage = randint(0, 12) - 1
-            player.fighter.left_leg_hp -= random_damage
-            if player.fighter.left_leg_hp < 0:
-                player.fighter.left_leg_hp = 0
+            player.fighter.take_limb_damge(randint(1, 12))
 
         if decrease_limb_damage:
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.head_hp += random_damage
-            if player.fighter.head_hp > 100:
-                player.fighter.head_hp = 100
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.chest_hp += random_damage
-            if player.fighter.chest_hp > 100:
-                player.fighter.chest_hp = 100
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.right_arm_hp += random_damage
-            if player.fighter.right_arm_hp > 100:
-                player.fighter.right_arm_hp = 100
-           
-            random_damage = randint(0, 12) - 1
-            player.fighter.left_arm_hp += random_damage
-            if player.fighter.left_arm_hp > 100:
-                player.fighter.left_arm_hp = 100
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.right_leg_hp += random_damage
-            if player.fighter.right_leg_hp > 100:
-                player.fighter.right_leg_hp = 100
-
-            random_damage = randint(0, 12) - 1
-            player.fighter.left_leg_hp += random_damage
-            if player.fighter.left_leg_hp > 100:
-                player.fighter.left_leg_hp = 100
-
+            player.fighter.heal(randint(1, 12))
+            
         if teleport:
             for entity in entities:
                 if entity.name == "Stairs Down":
@@ -413,11 +356,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
                 item_use_results = player.inventory.use(targeting_item, entities=entities, fov_map=fov_map, target_x=target_x, target_y=target_y)
                 player_turn_results.extend(item_use_results)
+
             elif right_click:
                 player_turn_results.append({'targeting_cancelled': True})
 
         if exit:
-            if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY, GameStates.CHARACTER_SCREEN, GameStates.RANGED):
+            if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY, GameStates.CHARACTER_SCREEN, GameStates.RANGED, GameStates.TARGETING, GameStates.SHOW_TUTORIAL, GameStates.SHOW_HELP_MENU):
                 game_state = previous_game_state
             
             elif game_state == GameStates.CYCLE_TARGET:
@@ -429,7 +373,14 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 con.clear()
 
             elif game_state == GameStates.TARGETING:
+                game_state = previous_game_state
                 player_turn_results.append({'targeting_cancelled': True})
+                con.clear()
+                clear_all(con, entities)
+                fov_map = initialize_fov(game_map)
+                fov_recompute = True
+                con.clear()
+
             else:
                 save_game(player, entities, game_map, message_log, game_state)
 
@@ -579,45 +530,32 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 game_state = GameStates.PLAYERS_TURN
 
         if game_state == GameStates.SHOW_TUTORIAL:
-
-            (center_x,center_y) = (int(constants['screen_width'] / 2), int(constants['screen_height'] / 2))
-
-            tutorial_panel = tc.console.Console(92, 40)
-
-            con.draw_frame(center_x - int(tutorial_panel.width / 2), center_y - 25, tutorial_panel.width, tutorial_panel.height, "Tutorial", False, fg=tc.white, bg=tc.black)
-        
-            con.print(center_x, center_y - 23, '[Key Bindings]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 21, '[Movement]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 19, 'Number Pad 1-9 or arrow keys for movement'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 17, 'I to open inventory screen'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 15, '[Inventory screen]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 13, 'Push the letter inside the () to use/equip the corresponding item.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 11, 'D to open drop item screen'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 9,'[Inventory Drop screen]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 7, 'Push the letter inside the () to drop the corresponding item.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 5, 'T to wait a turn.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 3, 'E to pick up items.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y - 1, 'ENTER/RETURN to use flights of stairs.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y + 1, 'ESCAPE to exit various menus/return to the Main Menu/cancel certan item usage.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y + 3, 'R to activate targeting mode.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y + 5, '[Targetting mode]'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y + 7, 'Press RIGHT or LEFT key to switch targets.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y + 11, 'Pick up new equipment(E), weapons(W) and health(H) to improve your chances of survival.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-            con.print(center_x, center_y + 14, 'PRESS ESCAPE TO EXIT TUTORIAL SCREEN.'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
-
-            con.blit(con, 0, 0, 0, 0, constants['screen_width'], constants['screen_height'], 0, 0)
-
+            
             action = handle_tutorial_menu(key)
             close_tutorial = action.get('close_tutorial')
 
             if close_tutorial:
+
+
                 con.clear()
-                # con.clear(32, (0, 0, 0), )
                 clear_all(con, entities)
                 fov_map = initialize_fov(game_map)
                 fov_recompute = True
                 con.clear()
-                # con.clear(32, (0, 0, 0), )
+                game_state = GameStates.PLAYERS_TURN
+
+        if game_state == GameStates.SHOW_HELP_MENU:
+            
+            action = handle_help_menu(key)
+            close_help_menu = action.get('close_help_menu')
+
+            if close_help_menu:
+        
+                con.clear()
+                clear_all(con, entities)
+                fov_map = initialize_fov(game_map)
+                fov_recompute = True
+                con.clear()
                 game_state = GameStates.PLAYERS_TURN
 
 
@@ -649,10 +587,16 @@ def main():
 
     event = tc.event.get()
     
+    # for event in tcod.event.wait():
     while event != "QUIT":
         tc.sys_check_for_event(tc.EVENT_KEY_PRESS | tc.EVENT_MOUSE, key, mouse)
 
         if show_main_menu:
+            
+            con.clear()
+            clear_all(con, entities)
+            tc.console_blit(con, 0, 0, constants['screen_width'], constants['screen_height'], 0, 0, 0, 1.0, 1.0)
+
             main_menu(con, main_menu_background_image, constants['screen_width'],constants['screen_height'])
 
             if show_load_error_message:
@@ -683,7 +627,6 @@ def main():
                 break
 
         else:
-            # con.clear(32, (63, 127, 63), )
             con.clear()
             play_game(player, entities, game_map, message_log, game_state, con, panel, constants)
             show_main_menu = True

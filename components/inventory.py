@@ -23,7 +23,8 @@ class Inventory:
         else:
             results.append({
                 'item_added': item,
-                'message': Message('You pick up the {0}!'.format(item.name), tc.blue)
+                # 'message': Message('You pick up the {0}!'.format(item.name), tc.blue)
+                'message': Message('You pick up the {0}!'.format(item.name), tc.white)
             })
 
             self.items.append(item)
@@ -88,9 +89,11 @@ class Inventory:
 
         # if self.owner.name == 'Player':
         if self.owner.name == 'You':
-            results.append({'item_dropped': item, 'message': Message('You dropped the {0}'.format(item.name), tc.yellow)})
+            # results.append({'item_dropped': item, 'message': Message('You dropped the {0}'.format(item.name), tc.yellow)})
+            results.append({'item_dropped': item, 'message': Message('You dropped the {0}'.format(item.name), tc.white)})
 
         else:
-            results.append({'item_dropped': item, 'message': Message('{0}'.format(item.name), tc.yellow)})
+            # results.append({'item_dropped': item, 'message': Message('{0}'.format(item.name), tc.yellow)})
+            results.append({'item_dropped': item, 'message': Message('{0}'.format(item.name), tc.white)})
 
         return results

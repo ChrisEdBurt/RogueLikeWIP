@@ -42,7 +42,15 @@ def get_constants():
     room_min_size = 6
     max_rooms = 30
 
+    # tc.FOV_BASIC
+    # tc.FOV_DIAMOND
+    # tc.FOV_SHADOW
+    # tc.FOV_PERMISSIVE
+    # tc.FOV_RESTRICTIVE
     fov_algorithm = 0
+
+    # fov_algorithm = tc.FOV_BASIC
+
     fov_light_walls = True
     fov_radius = 8
     
@@ -118,7 +126,7 @@ def get_game_variables(constants):
     # player.inventory.add_item(green_two_finger)
     # player.fighter.turns_since_special = 6
 
-    # item_component = Item(use_function = magic, targeting = True, targeting_message = Message('Left-click an enemy for spell`s target, Right-click to cancel.', tc.light_cyan), damage = 10, maximum_range = 2, ranged = True, uses = 5, maxUses = 5)
+    # item_component = Item(use_function = magic, targeting = True, targeting_message = Message('Left-click an enemy for spell`s target, Escape to cancel.', tc.light_cyan), damage = 10, maximum_range = 2, ranged = True, uses = 5, maxUses = 5)
     # fireStaff = Entity(0, 0, 'I', tc.white, 'Staff of Fire', render_order = RenderOrder.ITEM, item = item_component) 
     # player.inventory.add_item(fireStaff)
 
