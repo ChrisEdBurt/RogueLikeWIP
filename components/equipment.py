@@ -69,19 +69,25 @@ class Equipment:
 
         if slot == EquipmentSlots.MAIN_HAND:
 
+            if self.owner.fighter.right_arm_hp <= 10 and self.owner.fighter.right_arm_broken == True:
+                results.append({'unequipped': equippable_entity})
+                self.main_hand = None
+
             if self.owner.fighter.right_arm_hp <= 10:
                 results.append({'failed': equippable_entity})
 
             else:
+                
                 if self.main_hand == equippable_entity:
                     self.main_hand = None
-                    results.append({'dequipped': equippable_entity})
+                    results.append({'unequipped': equippable_entity})
+                
                 else:
                     if self.main_hand:
-                        results.append({'dequipped': self.main_hand})
+                        results.append({'unequipped': self.main_hand})
 
                     if self.both_hand:
-                        results.append({'dequipped': self.both_hand})
+                        results.append({'unequipped': self.both_hand})
                         self.both_hand = None
 
                     self.main_hand = equippable_entity
@@ -89,25 +95,36 @@ class Equipment:
 
         elif slot == EquipmentSlots.OFF_HAND:
 
+            if self.owner.fighter.left_arm_hp <= 10 and self.owner.fighter.left_arm_broken == True:
+                results.append({'unequipped': equippable_entity})
+                self.off_hand = None
+
             if self.owner.fighter.left_arm_hp <= 10:
                 results.append({'failed': equippable_entity})
+
+                return results
 
             else:
                 if self.off_hand == equippable_entity:
                     self.off_hand = None
-                    results.append({'dequipped': equippable_entity})
+                    results.append({'unequipped': equippable_entity})
                 else:
                     if self.off_hand:
-                        results.append({'dequipped': self.off_hand})
+                        results.append({'unequipped': self.off_hand})
 
                     if self.both_hand:
-                        results.append({'dequipped': self.both_hand})
+                        results.append({'unequipped': self.both_hand})
                         self.both_hand = None
 
                     self.off_hand = equippable_entity
                     results.append({'equipped': equippable_entity})
 
         elif slot == EquipmentSlots.BOTH_HAND:
+
+            if self.owner.fighter.left_arm_hp <= 10 or self.owner.fighter.right_arm_hp <= 10 \
+                or self.owner.fighter.right_arm_broken == True or self.owner.fighter.left_arm_broken == True:
+                results.append({'unequipped': equippable_entity})
+                self.both_hand = None
 
             if self.owner.fighter.left_arm_hp <= 10 or self.owner.fighter.right_arm_hp <= 10:
                 results.append({'failed': equippable_entity})
@@ -116,17 +133,17 @@ class Equipment:
 
                 if self.both_hand == equippable_entity:
                     self.both_hand = None
-                    results.append({'dequipped': equippable_entity})
+                    results.append({'unequipped': equippable_entity})
 
                 else:
                     if self.both_hand:
-                        results.append({'dequipped': self.both_hand})
+                        results.append({'unequipped': self.both_hand})
 
                     if self.main_hand or self.off_hand:
-                        results.append({'dequipped': self.main_hand})
+                        results.append({'unequipped': self.main_hand})
                         self.main_hand = None
                         
-                        results.append({'dequipped': self.off_hand})
+                        results.append({'unequipped': self.off_hand})
                         self.off_hand = None
 
                     self.both_hand = equippable_entity
@@ -135,10 +152,10 @@ class Equipment:
         elif slot == EquipmentSlots.HEAD_ARMOUR:
             if self.head_armour == equippable_entity:
                 self.head_armour = None
-                results.append({'dequipped': equippable_entity})
+                results.append({'unequipped': equippable_entity})
             else:
                 if self.head_armour:
-                    results.append({'dequipped': self.head_armour})
+                    results.append({'unequipped': self.head_armour})
 
                 self.head_armour = equippable_entity
                 results.append({'equipped': equippable_entity})
@@ -146,10 +163,10 @@ class Equipment:
         elif slot == EquipmentSlots.CHEST_ARMOUR:
             if self.chest_armour == equippable_entity:
                 self.chest_armour = None
-                results.append({'dequipped': equippable_entity})
+                results.append({'unequipped': equippable_entity})
             else:
                 if self.chest_armour:
-                    results.append({'dequipped': self.chest_armour})
+                    results.append({'unequipped': self.chest_armour})
 
                 self.chest_armour = equippable_entity
                 results.append({'equipped': equippable_entity})

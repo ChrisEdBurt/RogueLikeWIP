@@ -1,5 +1,18 @@
 CHANGELOG
 ---------------------------------------------------------------------------------------------------------
+1.0.6.3 -
+	Additonal Inventory tweaks.
+	Inventory displays currently equiped weapons/items.
+	Changed dequipped to unequipped.
+	Changed logic when arms are damaged to the point of being broken.
+	Special attack name added to message log.
+	Added at least one point of damage for burning/poison effects.
+	Updated death message.
+	Line formatting.
+	Changed message colours to use white instead of other colours.
+	Updated character screen.
+	Removed Hunger/Thirst placeholder text.
+
 1.0.6.2 -
 	Removed fire/poison from AI component.
 	Changed various log colours to white.

@@ -49,8 +49,7 @@ def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_c
 
 fov_recompute = False
 
-def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, screen_width, screen_height,
-               bar_width, panel_height, panel_y, mouse, colors, game_state):
+def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, screen_width, screen_height, bar_width, panel_height, panel_y, mouse, colors, game_state):
     if fov_recompute:
     # Draw all the tiles in the game map
         for y in range(game_map.height):
@@ -87,19 +86,8 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
     for message in message_log.messages:
     
         panel.default_fg = message.color
-        tc.console_print_ex(panel, (screen_width - screen_width) + 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
+        tc.console_print_ex(panel, 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
         y += 1
-
-        # if y == 0:
-        #     y = 1
-        #     panel.default_fg = message.color
-        #     tc.console_print_ex(panel, (screen_width - screen_width) + 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
-        #     y += 1
-
-        # else:
-        #     panel.default_fg = message.color
-        #     tc.console_print_ex(panel, (screen_width - screen_width) + 54, y, tc.BKGND_NONE, tc.LEFT, message.text)
-        #     y += 1
     
     render_bar(panel, 1 - 3, 1, bar_width, 'HP', player.fighter.hp, player.fighter.max_hp,tc.light_red, tc.darker_red)
     tc.console_print_ex(panel, 15, 5, tc.BKGND_NONE, tc.LEFT,'Dungeon level: {0}'.format(game_map.dungeon_level))
@@ -316,11 +304,11 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
 
     tc.console_blit(body_panel, 0, 0, body_panel.width, body_panel.height, 0, 0, screen_height - body_panel.height + 1, 1.0, 1.0)
 
-    ##BODY POISON/BURNING PANEL
+    ##BODY POISON/BURNING/HUNGER/THIRST PANEL
     status_panel = tc.console.Console(18, 11)
     status_panel.draw_frame(0, 0, status_panel.width, status_panel.height - 1, "Status", False, fg=tc.white, bg=tc.black)
-    tc.console_print_ex(status_panel, int(body_panel.width / 2 + 3), 3, tc.BKGND_NONE, tc.CENTER,'Hunger {0}/100'.format(player.fighter.hunger_level))
-    tc.console_print_ex(status_panel, int(body_panel.width / 2 + 3), 4, tc.BKGND_NONE, tc.CENTER,'Thirst {0}/100'.format(player.fighter.thirst_level))
+    # tc.console_print_ex(status_panel, int(body_panel.width / 2 + 3), 3, tc.BKGND_NONE, tc.CENTER,'Hunger {0}/100'.format(player.fighter.hunger_level))
+    # tc.console_print_ex(status_panel, int(body_panel.width / 2 + 3), 4, tc.BKGND_NONE, tc.CENTER,'Thirst {0}/100'.format(player.fighter.thirst_level))
 
     if player.fighter.is_burning == True:
         status_panel.default_fg = tc.red

@@ -23,19 +23,15 @@ from components.mage import Mage
 def play_game(player, entities, game_map, message_log, game_state, con, panel, constants):
     
     fov_recompute = True
-
     fov_map = initialize_fov(game_map)
-
     key = tc.Key()
     mouse = tc.Mouse()
-
     targeting_item = None
-
     visible_enemies = []
     room_enemies_index = 0
     room_enemies_length = 0
-
     event = tc.event.get()
+    
     while event != "QUIT":
     # while not tc.console_is_window_closed():
         tc.sys_check_for_event(tc.EVENT_KEY_PRESS | tc.EVENT_MOUSE, key, mouse)
@@ -49,9 +45,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                    constants['panel_height'], constants['panel_y'], mouse, constants['colors'], game_state)
 
         fov_recompute = False
-
         tc.console_flush()
-
         clear_all(con, entities)
 
         action = handle_keys(key, game_state)
@@ -71,29 +65,20 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
         exit = action.get('exit')
         fullscreen = action.get('fullscreen')
         god_mode = action.get('god_mode')
-
         show_help_menu = action.get('show_help_menu')
         close_help_menu = action.get('close_help_menu')
-
         cycle_target = action.get('cycle_target')
         cycle_target_right = action.get('right_target')
         cycle_target_left = action.get('left_target')
-
         poisoned = action.get('poisoned')
         burning = action.get('burning')
-
         reveal_map = action.get('reveal_map')
-
         decrease_limb_damage = action.get('decrease_limb_damage')
         increase_limb_damage = action.get('increase_limb_damage')
-
         teleport = action.get('teleport')
         mouse_teleport = mouse_teleport_action.get('mouse_teleport')
-
         ranged = action.get('ranged')
-
         spawn_enemy_at = action.get('spawn_enemy_at')
-
         left_click = mouse_action.get('left_click')
         right_click = mouse_action.get('right_click')
 
@@ -112,7 +97,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                     player_turn_results.extend(attack_results)
                 else:
                     player.move(dx, dy)
-
                     fov_recompute = True
 
 
@@ -129,7 +113,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             game_state = GameStates.ENEMY_TURN
 
         elif pickup and game_state == GameStates.PLAYERS_TURN:
+            
             for entity in entities:
+                
                 if entity.item and entity.x == player.x and entity.y == player.y:
                     pickup_results = player.inventory.add_item(entity)
                     player_turn_results.extend(pickup_results)
@@ -155,6 +141,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
             if game_state == GameStates.SHOW_INVENTORY:
                 player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map))
+            
             elif game_state == GameStates.DROP_INVENTORY:
                 player_turn_results.extend(player.inventory.drop_item(item))
 
@@ -165,7 +152,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map))
 
         if take_stairs and game_state == GameStates.PLAYERS_TURN:
+            
             for entity in entities:
+                
                 if entity.stairs and entity.x == player.x and entity.y == player.y and entity.stairs.direction == 'down':
                     entities = game_map.next_floor(player, message_log, constants)
                     fov_map = initialize_fov(game_map)
@@ -196,6 +185,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             visible_enemies.clear()
 
             for entity in entities:
+                
                 if entity.ai != None:
                     
                     if tc.map_is_in_fov(fov_map, entity.x, entity.y):
@@ -213,6 +203,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 con.print(int(constants['screen_width'] / 2), 1, 'There are no enemies present! Press ESCAPE to cancel targeting'.format(), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
 
         if cycle_target_right:
+            
             if len(visible_enemies) != 0:    
                 fov_recompute = True
                 
@@ -227,7 +218,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 con.print((visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, '{0}'.format(visible_enemies[room_enemies_index][3]), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
 
                 for entity in entities:
+                    
                     if tc.map_is_in_fov(fov_map, entity.x, entity.y):
+                       
                         if visible_enemies[room_enemies_index][3] == entity.name:
                                 names = entity.name
                                 names = names + ' ' + Mage.get_stats(entity) + Fighter.get_stats(entity)
@@ -235,10 +228,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
                 if room_enemies_index == room_enemies_length - 1:
                     room_enemies_index = 0
+                
                 else:
                     room_enemies_index += 1
 
         if cycle_target_left:
+            
             if len(visible_enemies) != 0:  
                 fov_recompute = True
 
@@ -253,7 +248,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 con.print((visible_enemies[room_enemies_index][1]) + 1, (visible_enemies[room_enemies_index][2]) - 2, '{0}'.format(visible_enemies[room_enemies_index][3]), (255, 255, 255), (0, 0, 0), 1, tc.CENTER)
 
                 for entity in entities:
+                    
                     if tc.map_is_in_fov(fov_map, entity.x, entity.y):
+                        
                         if visible_enemies[room_enemies_index][3] == entity.name:
                                 names = entity.name
                                 names = names + ' ' + Mage.get_stats(entity) + Fighter.get_stats(entity)
@@ -261,6 +258,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
                 if room_enemies_index == 0:
                     room_enemies_index = room_enemies_length - 1
+                
                 else:
                     room_enemies_index -= 1
 
@@ -268,22 +266,28 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             player.fighter.hp = 2500
         
         if poisoned:
+            
             if player.fighter.is_poisoned == False:
                 player.fighter.is_poisoned = True
                 player.fighter.poison_turns_remaining = 5
                 player.color = tc.green
 
         if burning:
+            
             if player.fighter.is_burning == False:
                 player.fighter.is_burning = True
                 player.fighter.burning_turns_remaining = 5
                 player.color = tc.red
 
         if reveal_map:            
+            
             if constants['fov_radius'] == 8:
                 constants['fov_radius'] = 250
+                
                 for i in range(len(game_map.tiles)):
+                    
                     for j in range(len(game_map.tiles[i])):
+                        
                         if not game_map.tiles[i][j].blocked:
                             game_map.tiles[i][j].explored = True
                             game_map.tiles[i][j].block_sight = False
@@ -295,10 +299,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 con.default_fg = tc.white
 
                 for entity in entities:
-
                     #ALL ENTITIES
                     # con.draw_frame(entity.x - 1, entity.y - 1 , 3, 3, "", False, fg=tc.black, bg=tc.black) 
-
                     #ENEMIES ONLY
                     if entity.ai != None:
                         #ENEMY SEEING POWER
@@ -322,7 +324,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             player.fighter.heal(randint(1, 12))
             
         if teleport:
+            
             for entity in entities:
+                
                 if entity.name == "Stairs Down":
                     player.x = entity.x
                     player.y = entity.y + 1
@@ -336,11 +340,14 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             game_state = GameStates.RANGED  
 
         if level_up:
+            
             if level_up == 'hp':
                 player.fighter.base_max_hp += 20
                 player.fighter.hp += 20
+            
             elif level_up == 'str':
                 player.fighter.base_strength += 1
+            
             elif level_up == 'def':
                 player.fighter.base_defense += 1
 
@@ -351,9 +358,9 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             game_state = GameStates.CHARACTER_SCREEN
 
         if game_state == GameStates.TARGETING:
-            if left_click:
+            
+            if left_click: 
                 target_x, target_y = left_click
-
                 item_use_results = player.inventory.use(targeting_item, entities=entities, fov_map=fov_map, target_x=target_x, target_y=target_y)
                 player_turn_results.extend(item_use_results)
 
@@ -361,6 +368,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 player_turn_results.append({'targeting_cancelled': True})
 
         if exit:
+            
             if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY, GameStates.CHARACTER_SCREEN, GameStates.RANGED, GameStates.TARGETING, GameStates.SHOW_TUTORIAL, GameStates.SHOW_HELP_MENU):
                 game_state = previous_game_state
             
@@ -390,6 +398,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             tc.console_set_fullscreen(not tc.console_is_fullscreen())
 
         for player_turn_result in player_turn_results:
+            
             message = player_turn_result.get('message')
             dead_entity = player_turn_result.get('dead')
             item_added = player_turn_result.get('item_added')
@@ -405,18 +414,18 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 message_log.add_message(message)
 
             if dead_entity:
+                
                 if dead_entity == player:
                     message, game_state = kill_player(dead_entity)
 
                 else:
                     message = kill_monster(dead_entity)
-
                     last_index = len(entities)
                     pre_dead_name = dead_entity.name.replace('remains of ', '')
 
                     if dead_entity.inventory != None:
+                        
                         for items in dead_entity.inventory.items:
-                            
                             items.x = dead_entity.x
                             items.y = dead_entity.y
                             entities.insert(last_index, items)
@@ -438,14 +447,14 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
                 for equip_result in equip_results:
                     equipped = equip_result.get('equipped')
-                    dequipped = equip_result.get('dequipped')
+                    unequipped = equip_result.get('unequipped')
                     failed = equip_result.get('failed')
 
                     if equipped:
                         message_log.add_message(Message('You equipped the {0}'.format(equipped.name)))
 
-                    if dequipped:
-                        message_log.add_message(Message('You dequipped the {0}'.format(dequipped.name)))
+                    if unequipped:
+                        message_log.add_message(Message('You unequipped the {0}'.format(unequipped.name)))
 
                     if failed:
                         message_log.add_message(Message('You failed to equip the {0} due to your injuries'.format(failed.name)))
@@ -455,14 +464,11 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             if targeting:
                 previous_game_state = GameStates.PLAYERS_TURN
                 game_state = GameStates.TARGETING
-
                 targeting_item = targeting
-
                 message_log.add_message(targeting_item.item.targeting_message)
 
             if targeting_cancelled:
                 game_state = previous_game_state
-
                 message_log.add_message(Message('Targeting cancelled'))
 
             if xp:
@@ -470,28 +476,24 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 message_log.add_message(Message('You gain {0} experience points.'.format(xp)))
 
                 if leveled_up:
-
                     previous_game_state = game_state
                     game_state = GameStates.LEVEL_UP
 
         if game_state == GameStates.ENEMY_TURN:
+            
             for entity in entities:
 
                 if entity.ai:
-
                     # #TRACK ENEMY SPECIAL TURNS
                     # if tc.map_is_in_fov(fov_map, entity.x, entity.y):
                     #     print(entity.name + ":" + " " + str(entity.fighter.turns_since_special))
-                
                     enemy_turn_results = entity.ai.take_turn(player, fov_map, game_map, entities)
 
                     if entity.fighter.is_poisoned == True:
-                    
                         message = entity.fighter.take_poison_damage()
                         message_log.add_message(message)
 
                     elif entity.fighter.is_burning == True:
-                    
                         message = entity.fighter.take_burning_damage()
                         message_log.add_message(message)
 
@@ -503,8 +505,10 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                             message_log.add_message(message)
 
                         if dead_entity:
+                            
                             if dead_entity == player:
                                 message, game_state = kill_player(dead_entity)
+                            
                             else:
                                 message = kill_monster(dead_entity)
 
@@ -518,25 +522,20 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
             else:
 
                 if player.fighter.is_poisoned == True:
-                    
                     message = player.fighter.take_poison_damage()
                     message_log.add_message(message)
 
-                elif player.fighter.is_burning == True:
-                    
+                elif player.fighter.is_burning == True:                   
                     message = player.fighter.take_burning_damage()
                     message_log.add_message(message)
 
                 game_state = GameStates.PLAYERS_TURN
 
-        if game_state == GameStates.SHOW_TUTORIAL:
-            
+        if game_state == GameStates.SHOW_TUTORIAL:           
             action = handle_tutorial_menu(key)
             close_tutorial = action.get('close_tutorial')
 
             if close_tutorial:
-
-
                 con.clear()
                 clear_all(con, entities)
                 fov_map = initialize_fov(game_map)
@@ -544,13 +543,11 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
                 con.clear()
                 game_state = GameStates.PLAYERS_TURN
 
-        if game_state == GameStates.SHOW_HELP_MENU:
-            
+        if game_state == GameStates.SHOW_HELP_MENU:       
             action = handle_help_menu(key)
             close_help_menu = action.get('close_help_menu')
 
             if close_help_menu:
-        
                 con.clear()
                 clear_all(con, entities)
                 fov_map = initialize_fov(game_map)
@@ -561,7 +558,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
 def main():    
     constants = get_constants()
-
     tc.console_set_custom_font('arial10x10.png', tc.FONT_TYPE_GREYSCALE | tc.FONT_LAYOUT_TCOD)       
     tc.console.Console(constants['screen_width'], constants['screen_height'])
     tc.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], 
@@ -592,37 +588,39 @@ def main():
         tc.sys_check_for_event(tc.EVENT_KEY_PRESS | tc.EVENT_MOUSE, key, mouse)
 
         if show_main_menu:
-            
             con.clear()
             clear_all(con, entities)
             tc.console_blit(con, 0, 0, constants['screen_width'], constants['screen_height'], 0, 0, 0, 1.0, 1.0)
-
             main_menu(con, main_menu_background_image, constants['screen_width'],constants['screen_height'])
 
             if show_load_error_message:
                 message_box(con, 'No save game to load', 50, constants['screen_width'], constants['screen_height'])
 
             tc.console_flush()
-
             action = handle_main_menu(key)
-
             new_game = action.get('new_game')
             load_saved_game = action.get('load_game')
             exit_game = action.get('exit')
 
             if show_load_error_message and (new_game or load_saved_game or exit_game):
                 show_load_error_message = False
+            
             elif new_game:
                 player, entities, game_map, message_log, game_state = get_game_variables(constants)
                 show_main_menu = False
-                game_state = GameStates.SHOW_TUTORIAL
+                #REVERT BEFORE COMMIT
+                # game_state = GameStates.SHOW_TUTORIAL
+                game_state = GameStates.PLAYERS_TURN
 
             elif load_saved_game:
+                
                 try:
                     player, entities, game_map, message_log, game_state = load_game()
                     show_main_menu = False
+                
                 except FileNotFoundError:
                     show_load_error_message = True
+            
             elif exit_game:
                 break
 

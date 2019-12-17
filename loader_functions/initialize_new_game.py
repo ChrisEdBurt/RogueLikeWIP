@@ -102,10 +102,10 @@ def get_game_variables(constants):
     entities = [player]
 
     # equippable_component = Equippable(EquipmentSlots.HEAD_ARMOUR, defense_bonus = 1, intelligence_bonus = 0)
-    # full_helm = Entity(0, 0, 'E', tc.sky, 'Full-Helm', equippable = equippable_component)
-    # player.inventory.add_item(full_helm)
-    # player.equipment.toggle_equip(full_helm)
-
+    # helm = Entity(0, 0, 'E', tc.sky, 'Helm', equippable = equippable_component)
+    # player.inventory.add_item(helm)
+    # player.equipment.toggle_equip(helm)
+    
     equippable_component = Equippable(EquipmentSlots.CHEST_ARMOUR, defense_bonus = 1, intelligence_bonus = 0)
     cloth_shirt = Entity(0, 0, 'E', tc.sky, 'Cloth Shirt', equippable = equippable_component)
     player.inventory.add_item(cloth_shirt)
@@ -116,20 +116,20 @@ def get_game_variables(constants):
     player.inventory.add_item(club)
     player.equipment.toggle_equip(club)
     
-    equippable_component = Equippable(EquipmentSlots.OFF_HAND, defense_bonus = 1)
-    shield = Entity(0, 0, 'E', tc.sky, 'Shield', equippable = equippable_component)
-    player.inventory.add_item(shield)
-    player.equipment.toggle_equip(shield)
+    # equippable_component = Equippable(EquipmentSlots.OFF_HAND, defense_bonus = 1)
+    # shield = Entity(0, 0, 'E', tc.sky, 'Shield', equippable = equippable_component)
+    # player.inventory.add_item(shield)
+    # player.equipment.toggle_equip(shield)
 
-    # equippable_component = Equippable(EquipmentSlots.BOTH_HAND, strength_bonus = 0)
-    # green_two_finger = Entity(0, 0, 'W', tc.sky, 'Green-Two-Finger', equippable = equippable_component)
-    # player.inventory.add_item(green_two_finger)
-    # player.fighter.turns_since_special = 6
+    # item_component = Item(use_function=heal, amount=20)
+    # health_potion = Entity(0, 0, 'H', tc.violet, 'Healing Potion', render_order=RenderOrder.ITEM,item=item_component)
+    # for r in range(7):
+    #     player.inventory.add_item(health_potion)
 
     # item_component = Item(use_function = magic, targeting = True, targeting_message = Message('Left-click an enemy for spell`s target, Escape to cancel.', tc.light_cyan), damage = 10, maximum_range = 2, ranged = True, uses = 5, maxUses = 5)
     # fireStaff = Entity(0, 0, 'I', tc.white, 'Staff of Fire', render_order = RenderOrder.ITEM, item = item_component) 
     # player.inventory.add_item(fireStaff)
-
+    
     game_map = GameMap(constants['map_width'], constants['map_height'])
     game_map.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'], constants['map_width'], constants['map_height'], player, entities)
 

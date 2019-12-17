@@ -390,15 +390,15 @@ class GameMap:
                 elif item_choice == 'fireball_scroll':
                     item_component = Item(use_function=cast_fireball, targeting=True, targeting_message=Message(
                         'Left-click a target tile for the fireball, or Escape to cancel.', tc.light_cyan), damage=25, radius=3)
-                    item = Entity(x, y, 'F', tc.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,item=item_component)
+                    item = Entity(x, y, 'F', tc.blue, 'Fireball Scroll', render_order=RenderOrder.ITEM,item=item_component)
 
                 elif item_choice == 'confusion_scroll':
                     item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message('Left-click an enemy to confuse it, or Escape to cancel.', tc.light_cyan))
-                    item = Entity(x, y, 'C', tc.light_pink, 'Confusion Scroll', render_order=RenderOrder.ITEM,item=item_component)
+                    item = Entity(x, y, 'C', tc.blue, 'Confusion Scroll', render_order=RenderOrder.ITEM,item=item_component)
 
                 else:
                     item_component = Item(use_function=cast_lightning, damage=40, maximum_range=5)
-                    item = Entity(x, y, 'L', tc.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,item=item_component)
+                    item = Entity(x, y, 'L', tc.blue, 'Lightning Scroll', render_order=RenderOrder.ITEM,item=item_component)
 
                 entities.append(item)
 
