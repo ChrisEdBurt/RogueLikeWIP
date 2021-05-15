@@ -168,24 +168,6 @@ INVENTORY
 
 CHARACTER SHEET
      It will show damage to areas, damage type: poison, acid, fire, freeze, blunt, wound, etc..
-
-     ----
-    |    |
-    |    |
-     ----
-|--||    ||--|
-|  ||    ||  |
-|  ||    ||  |
-|  ||    ||  |
-|--||    ||--| 
-    |    |  
-     ----   
-   |--||--|      
-   |  ||  |
-   |  ||  |
-   |  ||  |
-   |--||--|
-
  
 COMBAT
 	LIMB/BODY BASED DAMAGED
